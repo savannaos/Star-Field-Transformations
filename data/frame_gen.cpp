@@ -3,6 +3,7 @@
 #include <fstream>
 #include <math.h>
 #include <iomanip>
+#include <string>
 #include "star.hpp"
 /*  Savanna Smith, 5/25/17
     Generates frames for star data */
@@ -24,18 +25,18 @@ void initStars(std::map<double, Star>& starDict){
 /* generate frame for stars with:
   - theta between (pi/2)-(dtheta/2) and (pi/2)+(dtheta/2)
   - phi first between minPhi and minPhi + dphi*/
-void genFrame(double minPhi, const std::map<double, Star>& starDict){
+void genFrame(double minPhi, const std::map<double, Star>& starDict, std::ofstream& writeTo){
   double dTheta = M_PI/10, dPhi = M_PI/10;
   double minTheta = M_PI/2 - (dTheta/2);
   double maxTheta = M_PI/2 + (dTheta/2);
   double maxPhi   = minPhi + dPhi;
-  std::cout << "Showing stars with theta between "<< minTheta << " and "
-            << maxTheta << " for phi between " << minPhi << " and " << maxPhi << std::endl;
+  //writeTo << "Showing stars with theta between "<< minTheta << " and "
+  //          << maxTheta << " for phi between " << minPhi << " and " << maxPhi << std::endl;
   for(auto p: starDict){
     if(p.first > maxPhi) return; //since sorted by phi don't look at anything above max
     if(p.second.theta >= minTheta && p.second.theta <= maxTheta &&
        p.second.phi >= minPhi && p.second.phi <= maxPhi){
-         std::cout << p.second.theta << " " << p.second.phi
+         writeTo << p.second.theta << " " << p.second.phi
                    << " " << p.second.mag << std::endl;
        }
   }
@@ -46,10 +47,13 @@ int main(){
  initStars(starDict);
  double minPhi = 0;
  for(int i = 0; i < 20; i++){
-   std::cout << "Frame " << i << ": ";
-    genFrame(minPhi, starDict);
-    std::cout << std::endl;
-    minPhi += M_PI/100; //increment phi window
+   std::ofstream outFile;
+   std::string fname = "frames/frame" + std::to_string(i) + ".txt";
+   outFile.open(fname.c_str());
+   //std::cout << fname << std::endl;
+   genFrame(minPhi, starDict, outFile);
+   minPhi += M_PI/100; //increment phi window
+   outFile.close();
  }
  return 0;
 }
