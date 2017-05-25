@@ -22,7 +22,7 @@ void genStars(int numStars, ofstream& writeTo){
 
 int main(){
   ofstream f;
-  f.open("star_loc.txt");
+  f.open("star_data.txt");
   genStars(9096, f);
   f.close();
   cout << "Star data complete!" << endl;

@@ -10,16 +10,16 @@
 
 int main(){
  std::map<double, int> hist;
- std::ifstream input("star_loc.txt");
+ std::ifstream input("star_data.txt");
  double x,y,b;
  int rounded;
  if(input.is_open()){
    while(input>>x>>y>>b){
      rounded = trunc(b);
-     if(b-rounded < .25){
+     if(b-rounded <= .25){
        ++hist[rounded];
      }
-     else if(b-rounded > .75){
+     else if(b-rounded >= .75){
        ++hist[rounded + 1];
      }
      else{
