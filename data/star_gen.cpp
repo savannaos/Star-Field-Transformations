@@ -10,13 +10,13 @@
 using namespace std;
 
 void genStars(int numStars, ofstream& writeTo){
-  random_device rdPhi, rdTheta, rdMag; //seeds (change if entropy is an issue)
-  mt19937 genPhi(rdPhi()), genTheta(rdTheta()), genMag(rdMag()); //random number generators
-  uniform_real_distribution<> disPhi(0,2*M_PI); //phi can be anywhere between 0 and 2pi
+  random_device rdTheta, rdPhi, rdMag; //seeds (change if entropy is an issue)
+  mt19937 genTheta(rdTheta()), genPhi(rdPhi()), genMag(rdMag()); //random number generators
   uniform_real_distribution<> disTheta(0,M_PI); //theta can be anywhere between 0 and pi
+  uniform_real_distribution<> disPhi(0,2*M_PI); //phi can be anywhere between 0 and 2pi
   normal_distribution<> disMag(8.5, 2); //mean magnitude = 8.5, std = 2
   for(int i = 0; i<numStars; i++){
-    writeTo << disPhi(genPhi) << " " << disTheta(genTheta) << " " << disMag(genMag) << endl;
+    writeTo << disTheta(genTheta) << " " << disPhi(genPhi)  << " " << disMag(genMag) << endl;
   }
 }
 

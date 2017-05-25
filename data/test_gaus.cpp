@@ -7,7 +7,7 @@
 /*  Savanna Smith, 5/25/17
     File prints histogram of star magnitide data
     to check that it follows a gaussian distribution */
-    
+
 int main(){
  std::map<double, int> hist;
  std::ifstream input("star_loc.txt");
@@ -16,10 +16,10 @@ int main(){
  if(input.is_open()){
    while(input>>x>>y>>b){
      rounded = trunc(b);
-     if(b-rounded <= .3){
+     if(b-rounded < .25){
        ++hist[rounded];
      }
-     else if(b-rounded >= .7){
+     else if(b-rounded > .75){
        ++hist[rounded + 1];
      }
      else{
