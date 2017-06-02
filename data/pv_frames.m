@@ -6,7 +6,7 @@ numFrames = 20;
 dTheta = pi/5;
 dPhi = pi/10;
 pixPerSide = 2000;
-theta0 = pi/2 - pi/20;
+theta0 = pi/2 - pi/20;                 %bias
 data = cell(numFrames,1);
 
 % LAMBDAS FOR COMPUTING INDEX

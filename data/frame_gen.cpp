@@ -63,19 +63,5 @@ int main(){
    outFile.close();
    moveStars(starDict);
  }
- std::map<double,int> hist;
- double rounded;
- double x;
- for(const auto &p: starDict){
-    x = p.second.phi;
-  //  rounded = round(theta * 100.0) / 100.0;
-//   std::cout << x << std::endl;
-  //  ++hist[rounded];
- }
-
- // for(auto p: hist){
- //   std::cout << std::fixed << std::setprecision(3) << std::setw(2)
- //             << p.first << ' ' << std::string(p.second/10, '*') << '\n';
- // }
  return 0;
 }
