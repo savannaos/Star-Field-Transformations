@@ -50,7 +50,6 @@ int main(){
    std::ofstream outFile;
    std::string fname = "frames/frame" + std::to_string(i) + ".txt";
    outFile.open(fname.c_str());
-   //std::cout << fname << std::endl;
    genFrame(minPhi, starDict, outFile);
    minPhi += M_PI/100; //increment phi window
    outFile.close();
