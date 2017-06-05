@@ -16,7 +16,7 @@ linearIndex = @(row,col,nCols) (nCols * (row-1)) + col;
 
 % COMPUTE AND SAVE DATA PER FRAME
 for frame = 1:numFrames
-  fName = ['frames/frame' num2str(frame-1) '.txt'];
+  fName = ['frames/right/frame' num2str(frame-1) '.txt'];
   m = dlmread(fName);                   %save data into matrix format
   nStars = size(m,1);
   data{frame}.time = frame;             %time and values struct vals needed
@@ -39,4 +39,5 @@ end%for
 nx = 2000;
 ny = 2000;
 nf = 1;
+save('matfiles/right.mat','data');
 writepvpsparsevaluesfile('header.pvp', data, nx, ny, nf);
