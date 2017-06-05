@@ -4,8 +4,9 @@
 #include <math.h>
 #include <string>
 /* Savanna Smith, 5/24/17
-   Generate 9,096 of the visible star locations and magnitudes.
-   Outputs file of star locations as data.
+   Generate 9,096 random theta and phi locations
+   to represent visible stars. Also generate random
+   magnitudes for the stars that follow a normal distribution.
    */
 using namespace std;
 
@@ -15,7 +16,7 @@ void genStars(int numStars, ofstream& writeTo){
   uniform_real_distribution<> disTheta(0,M_PI); //theta can be anywhere between 0 and pi
   uniform_real_distribution<> disPhi(0,2*M_PI); //phi can be anywhere between 0 and 2pi
   normal_distribution<> disMag(8.5, 2); //mean magnitude = 8.5, std = 2
-  for(int i = 0; i<numStars; i++){
+  for(int i = 0; i<numStars; i++){      //use random number generator and write to file
     writeTo << disTheta(genTheta) << " " << disPhi(genPhi)  << " " << disMag(genMag) << endl;
   }
 }
