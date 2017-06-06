@@ -50,7 +50,12 @@ void moveStars(double thetaChange, double phiChange, Container& stars){
     if(s.phi > ( 2 * M_PI)){ //we reached the end, loop back
       s.phi = s.phi - ( 2 * M_PI);
     }
-    //should also check < 0
+    if(s.theta < 0){
+      s.theta = s.theta + 2* M_PI;
+    }
+    if(s.phi < 0){
+      s.phi = s.phi + 2* M_PI;
+    }
   }
 }
 
@@ -68,7 +73,7 @@ int main(){
  // }
  for(int i = 0; i < numFrames; i++){
    std::ofstream outFile;
-   std::string fname = "frames/" + starMove.subFolder() + "frame" + std::to_string(i) + ".txt";
+   std::string fname = "frames/" + starMove.subFolder() + std::to_string(starMove.speedFactor()) + "/frame" + std::to_string(i) + ".txt";
    outFile.open(fname.c_str());
    genFrame(coordBounds, stars, outFile);
    outFile.close();
