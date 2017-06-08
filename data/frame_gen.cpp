@@ -58,26 +58,52 @@ void moveStars(double thetaChange, double phiChange, Container& stars){
     }
   }
 }
+template<typename Container>
+void genOneMovement(int numFrames, StarCoordBounds& coordBounds,Container& stars){
+  // struct stat info;
+  // if(!(stat(starMove.subFolder(),&info)==0 && S_ISDIR(info.st_mode))){
+  //   //directory doesn't exit, create it
+  //   mkdir("frames/starMove.subFolder()");
+  // }
+  double speed = M_PI/10, speedFactor;
+  std::cout << "Speed is " << speed << ". Enter Factor to divide it by: ";
+  std::cin >> speedFactor;
+  speed = speed / speedFactor;
+  StarMovement starMove;
+  starMove.selectMovement();
+  for(int i = 0; i < numFrames; i++){
+    std::ofstream outFile;
+    std::string fname = "frames/" + starMove.name() + "/" + std::to_string(speedFactor) + "/frame" + std::to_string(i) + ".txt";
+    outFile.open(fname.c_str());
+    genFrame(coordBounds, stars, outFile);
+    outFile.close();
+    moveStars(starMove.thetaChange(), starMove.phiChange(), stars);
+  }
+}
+
+template<typename Container>
+void genAllMovement(int numFrames, int factor,StarCoordBounds& coordBounds,Container& stars){
+  double speed = (M_PI/10) / factor;
+  StarMovement starMove(speed);
+  int totalFrames = numFrames * starMove.numDirections();
+  for(int i = 0; i<totalFrames; i++){
+    std::ofstream outFile;
+    std::string fname = "frames/allspeed" + std::to_string(factor) + "/frame" + std::to_string(i) + ".txt";
+    outFile.open(fname.c_str());
+    genFrame(coordBounds, stars, outFile);
+    outFile.close();
+    moveStars(starMove.thetaChange(), starMove.phiChange(), stars);
+    if(i%numFrames==0) starMove.nextMovement();
+  }
+}
 
 int main(){
  using namespace std;
  vector<Star> stars;
  initStars(stars);
- int numFrames = 20;
- StarMovement starMove;
- StarCoordBounds coordBounds;
- // struct stat info;
- // if(!(stat(starMove.subFolder(),&info)==0 && S_ISDIR(info.st_mode))){
- //   //directory doesn't exit, create it
- //   mkdir("frames/starMove.subFolder()");
- // }
- for(int i = 0; i < numFrames; i++){
-   std::ofstream outFile;
-   std::string fname = "frames/" + starMove.subFolder() + std::to_string(starMove.speedFactor()) + "/frame" + std::to_string(i) + ".txt";
-   outFile.open(fname.c_str());
-   genFrame(coordBounds, stars, outFile);
-   outFile.close();
-   moveStars(starMove.thetaChange(), starMove.phiChange(), stars);
- }
+ StarCoordBounds sc;
+ int numFrames = 1000;
+ int speedFactor = 10;
+ genAllMovement(numFrames, speedFactor, sc, stars);
  return 0;
 }

@@ -2,87 +2,41 @@
 #define __STARMOVEMENT_H
 #include <string>
 #include <stdio.h>
+#include <vector>
+#include "movement.hpp"
+#include <string>
 class StarMovement {
-  double _phiChange;
-  double _thetaChange;
-  std::string _subFolder;
-  double _speed;
-  double _speedFactor;
+  std::vector<Movement> _movements;
+  int                   _currentIndex;
 public:
-  StarMovement(){
+  StarMovement(double speed){
+    _movements.push_back(Movement(0,-1* speed, speed, "left"));
+    _movements.push_back(Movement(0, speed, speed, "right"));
+    _movements.push_back(Movement(speed, 0, speed, "up"));
+    _movements.push_back(Movement(-1 * speed, 0, speed, "down"));
+    _movements.push_back(Movement(speed, speed, speed, "diagonalplusplus"));
+    _movements.push_back(Movement(-1 * speed, -1 * speed, speed, "diagonalminusminus"));
+    _movements.push_back(Movement(speed, -1 * speed, speed, "diagonalplusminus"));
+    _movements.push_back(Movement (-1 * speed, speed, speed, "diagonalminusminus"));
+    _currentIndex = 0;
+  }
+  void selectMovement(){
     int direction;
-    _speed = M_PI/10;
-    std::cout << "Speed is " << _speed << ". Enter Factor to divide it by: ";
-    std::cin >> _speedFactor;
-    _speed = _speed / _speedFactor;
     std::cout << "How would you like to shift the stars?" << std::endl
          <<  "left:1\nright:2 \nup:3 \ndown:4 \ndiagonal++:5 \ndiagonal--:6 \ndiagonal+-:7 \ndiagonal-+:8" << std::endl;
     std::cin >> direction;
-    switch(direction){
-      case 1 : {
-        _thetaChange = 0;
-        _phiChange = -1 * _speed;
-        _subFolder = "left/";
-        break;
-      }
-      case 2: {
-        _thetaChange = 0;
-        _phiChange = _speed;
-        _subFolder = "right/";
-        break;
-      }
-      case 3: {
-        _thetaChange = _speed;
-        _phiChange = 0;
-        _subFolder = "up/";
-        break;
-      }
-      case 4 : {
-        _thetaChange = -1 * _speed;
-        _phiChange = 0;
-        _subFolder = "down/";
-        break;
-      }
-      case 5 : {
-        _thetaChange = _speed;
-        _phiChange = _speed;
-        _subFolder = "diagonalplusplus/";
-        break;
-      }
-      case 6 : {
-        _thetaChange = -1 * _speed;
-        _phiChange = -1 * _speed;
-        _subFolder = "diagonalminusminus/";
-        break;
-      }
-      case 7 : {
-        _thetaChange = _speed;
-        _phiChange = -1 * _speed;
-        _subFolder = "diagonalplusminus/";
-        break;
-      }
-      case 8 : {
-        _thetaChange = -1 * _speed;
-        _phiChange = _speed;
-        _subFolder = "diagonalminusplus/";
-        break;
-      }
-      default : {
-        std::cout << "Invalid Option. Default will be right-ward movement"
-                  << std::endl;
-        _thetaChange = 0;
-        _phiChange = _speed;
-        _subFolder = "right/";
-        break;
-      }
+    while( direction >= _movements.size()){
+        std::cout << "Invalid Option. Select again: ";
+        std::cin >> direction;
     }
+    _currentIndex = direction;
   }
-  StarMovement(double pc, double tc, double speed, std::string& sf) : _phiChange(pc), _thetaChange(tc), _speed(speed),_subFolder(sf) {}
-  double phiChange() {return _phiChange;}
-  double thetaChange() {return _thetaChange;}
-  std::string subFolder() {return _subFolder;}
-  double speedFactor() {return _speedFactor;}
-
+  double phiChange() {return _movements[_currentIndex].phiChange();}
+  double thetaChange() {return _movements[_currentIndex].thetaChange();}
+  std::string name() {return _movements[_currentIndex].name();}
+  void nextMovement(){_currentIndex++;}
+  int numDirections(){return _movements.size();}
+  double speed() {return _movements[_currentIndex].speed();}
 };
 
 #endif
