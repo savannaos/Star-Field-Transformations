@@ -5,19 +5,22 @@
 #include <vector>
 #include "movement.hpp"
 #include <string>
+#include <math.h>
 class StarMovement {
   std::vector<Movement> _movements;
   int                   _currentIndex;
 public:
-  StarMovement(double speed){
-    _movements.push_back(Movement(0,-1* speed, speed, "left"));
-    _movements.push_back(Movement(0, speed, speed, "right"));
-    _movements.push_back(Movement(speed, 0, speed, "up"));
-    _movements.push_back(Movement(-1 * speed, 0, speed, "down"));
-    _movements.push_back(Movement(speed, speed, speed, "diagonalplusplus"));
-    _movements.push_back(Movement(-1 * speed, -1 * speed, speed, "diagonalminusminus"));
-    _movements.push_back(Movement(speed, -1 * speed, speed, "diagonalplusminus"));
-    _movements.push_back(Movement (-1 * speed, speed, speed, "diagonalminusminus"));
+  StarMovement(double factor){
+      double tspeed = (M_PI/5) / factor;
+      double pspeed = (M_PI/10) /factor;
+    _movements.push_back(Movement(0,-1* pspeed,"left"));
+    _movements.push_back(Movement(0, pspeed, "right"));
+    _movements.push_back(Movement(tspeed, 0, "up"));
+    _movements.push_back(Movement(-1 * tspeed, 0, "down"));
+    _movements.push_back(Movement(tspeed, pspeed, "diagonalplusplus"));
+    _movements.push_back(Movement(-1 * tspeed, -1 * pspeed, "diagonalminusminus"));
+    _movements.push_back(Movement(tspeed, -1 * pspeed, "diagonalplusminus"));
+    _movements.push_back(Movement (-1 * tspeed, pspeed, "diagonalminusminus"));
     _currentIndex = 0;
   }
   void selectMovement(){
@@ -36,7 +39,6 @@ public:
   std::string name() {return _movements[_currentIndex].name();}
   void nextMovement(){_currentIndex++;}
   int numDirections(){return _movements.size();}
-  double speed() {return _movements[_currentIndex].speed();}
 };
 
 #endif

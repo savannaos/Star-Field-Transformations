@@ -83,8 +83,7 @@ void genOneMovement(int numFrames, StarCoordBounds& coordBounds,Container& stars
 
 template<typename Container>
 void genAllMovement(int numFrames, int factor,StarCoordBounds& coordBounds,Container& stars){
-  double speed = (M_PI/10) / factor;
-  StarMovement starMove(speed);
+  StarMovement starMove(factor);
   int totalFrames = numFrames * starMove.numDirections();
   for(int i = 0; i<totalFrames; i++){
     std::ofstream outFile;
@@ -103,7 +102,7 @@ int main(){
  initStars(stars);
  StarCoordBounds sc;
  int numFrames = 1000;
- int speedFactor = 10;
+ int speedFactor = 256; //for 8px/s
  genAllMovement(numFrames, speedFactor, sc, stars);
  return 0;
 }
