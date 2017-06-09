@@ -28,11 +28,11 @@ public:
     std::cout << "How would you like to shift the stars?" << std::endl
          <<  "left:1\nright:2 \nup:3 \ndown:4 \ndiagonal++:5 \ndiagonal--:6 \ndiagonal+-:7 \ndiagonal-+:8" << std::endl;
     std::cin >> direction;
-    while( direction >= _movements.size()){
+    while( direction > _movements.size() || direction < 1){
         std::cout << "Invalid Option. Select again: ";
         std::cin >> direction;
     }
-    _currentIndex = direction;
+    _currentIndex = direction-1;
   }
   double phiChange() {return _movements[_currentIndex].phiChange();}
   double thetaChange() {return _movements[_currentIndex].thetaChange();}

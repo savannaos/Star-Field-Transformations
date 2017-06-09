@@ -59,21 +59,12 @@ void moveStars(double thetaChange, double phiChange, Container& stars){
   }
 }
 template<typename Container>
-void genOneMovement(int numFrames, StarCoordBounds& coordBounds,Container& stars){
-  // struct stat info;
-  // if(!(stat(starMove.subFolder(),&info)==0 && S_ISDIR(info.st_mode))){
-  //   //directory doesn't exit, create it
-  //   mkdir("frames/starMove.subFolder()");
-  // }
-  double speed = M_PI/10, speedFactor;
-  std::cout << "Speed is " << speed << ". Enter Factor to divide it by: ";
-  std::cin >> speedFactor;
-  speed = speed / speedFactor;
-  StarMovement starMove;
+void genOneMovement(int numFrames, int factor, StarCoordBounds& coordBounds,Container& stars){
+  StarMovement starMove(factor);
   starMove.selectMovement();
   for(int i = 0; i < numFrames; i++){
     std::ofstream outFile;
-    std::string fname = "frames/" + starMove.name() + "/" + std::to_string(speedFactor) + "/frame" + std::to_string(i) + ".txt";
+    std::string fname = "frames/" + starMove.name() + std::to_string(factor) + "/frame" + std::to_string(i) + ".txt";
     outFile.open(fname.c_str());
     genFrame(coordBounds, stars, outFile);
     outFile.close();
@@ -103,6 +94,7 @@ int main(){
  StarCoordBounds sc;
  int numFrames = 1000;
  int speedFactor = 256; //for 8px/s
- genAllMovement(numFrames, speedFactor, sc, stars);
+ //genAllMovement(numFrames, speedFactor, sc, stars);
+ genOneMovement(numFrames, speedFactor, sc, stars);
  return 0;
 }
