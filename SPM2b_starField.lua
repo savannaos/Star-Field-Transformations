@@ -100,7 +100,7 @@ for i_tier = 1, tiers do
    expName                  = expName .. "_" .. math.floor(patchSizeATA[i_tier]) .. "X" .. math.floor(patchSizeATA[i_tier]) .. "X" .. math.floor(dictionarySize[i_tier]);
 end
 local paramsFilename        = expName .. "_" .. numFrames .. "_" .. displayPeriod*displayMultiple .. "_" .. runName .. runVersion .. ".params";
-local imageInputPath        = scratchPath .. "/data/" .. "starField_up10.pvp";
+local imageInputPath        = scratchPath .. "/data/starFieldpvp/" .. "up256.pvp";
 local outputPath            = scratchPath .. "/PVout/" .. expName .. "_" .. numFrames .. "_" .. displayPeriod*displayMultiple .."/" .. runName .. runVersion;
 local initPath              = scratchPath .. "/" .. expName .. "_" .. numFrames .. "_" .. displayPeriod*displayMultiple .."/" .. runName .. runVersion-1;
 if runVersion == 1 then
