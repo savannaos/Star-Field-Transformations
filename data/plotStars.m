@@ -1,5 +1,5 @@
 addpath('../OpenPV/mlab/util');
-star_file = 'starFieldpvp/allspeed256.pvp'
+star_file = 'starFieldpvp/up256.pvp'
 [star_data, star_hdr] = readpvpfile(star_file);
 star_frames = star_hdr.nbands;
 star_nx = star_hdr.nx;
@@ -9,5 +9,6 @@ for i_frame = 1:star_frames
   star_ndx = round(star_data{i_frame}.values(:,1));
   [star_col, star_row] = ind2sub([star_ny, star_nx], star_ndx);
   plot(star_col, star_row, '.');
-  saveas(gcf, ['plots/allspeed256/star_field_', num2str(i_frame, "%03i"), '.png']);
+  axis ([0 2500 0 1200]);
+  saveas(gcf, ['plots/up256/star_field_', num2str(i_frame, "%03i"), '.png']);
 end%for
