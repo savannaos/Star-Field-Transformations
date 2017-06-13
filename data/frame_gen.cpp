@@ -68,6 +68,7 @@ void genOneMovement(int numFrames, int factor, StarCoordBounds& coordBounds,Cont
     outFile.open(fname.c_str());
     genFrame(coordBounds, stars, outFile);
     outFile.close();
+    std::cout << starMove.thetaChange() << " " << starMove.phiChange() << std::endl;
     moveStars(starMove.thetaChange(), starMove.phiChange(), stars);
   }
 }
@@ -92,8 +93,8 @@ int main(){
  vector<Star> stars;
  initStars(stars);
  StarCoordBounds sc;
- int numFrames = 1000;
- int speedFactor = 256; //for 8px/s
+ int numFrames = 20;
+ int speedFactor = 10; //for 8px/s
  //genAllMovement(numFrames, speedFactor, sc, stars);
  genOneMovement(numFrames, speedFactor, sc, stars);
  return 0;

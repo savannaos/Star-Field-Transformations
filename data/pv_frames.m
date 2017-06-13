@@ -10,7 +10,6 @@ function pv_frames(name)
   pathName = ['frames/' name '/'];
   d = dir([pathName 'frame' '*.txt']);
   numFrames = length(d(not([d.isdir])));
- % numFrames = typecast(numFrames, 'uint8');
   data = cell(numFrames,1);
 
   % LAMBDAS FOR COMPUTING INDEX
@@ -35,7 +34,7 @@ function pv_frames(name)
       if x > pixPerSide || y > pixPerSide %bounds checking
         fprintf('Bounds error. x = %d y = %d index = %d\n',x,y,index);
       end%if
-      if index < 0 || index > 4000000
+      if index < 0 || index > (pixPerSide * pixPerSide)
         fprintf('Bounds error. theta = %d phi = %d x = %d y = %d index = %d\n',m(i,1), m(i,2), x,y,index);
       end%if
       %fprintf('x = %d y = %d index = %d\n',x,y,index);
@@ -46,7 +45,7 @@ function pv_frames(name)
   % disp(data);
   nx = pixPerSide;
   ny = pixPerSide;
-  nf = 1;
+  nf = 1; %since black and white image
   pvpName = ['starFieldpvp/' name '.pvp'];
   matName = ['matfiles/' name '.mat'];
   save(matName,'data');
