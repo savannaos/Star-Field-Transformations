@@ -27,7 +27,7 @@ function pv_frames(name)
     for i=1:nStars
       x = round(xcoord(m(i,1)));
       y = round(ycoord(m(i,2)));
-      %if(x < 1) x = 1; end%if
+      if(x < 1) x = 1; end%if
       index = linearIndex(x,y, pixPerSide);
       %index = sub2ind([pixPerSide, pixPerSide], x, y);
       %My own linear index is row by row concatination
