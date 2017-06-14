@@ -25,11 +25,13 @@ function pv_frames(name)
     data{frame}.time = frame;             %time and values struct vals needed
     data{frame}.values = ones(nStars, 2); %columns for index and value
     for i=1:nStars
-      x = xcoord(m(i,1));
-      y = ycoord(m(i,2));
-      if(x < 1) x = 1; end%if
+      x = round(xcoord(m(i,1)));
+      y = round(ycoord(m(i,2)));
+      %if(x < 1) x = 1; end%if
       index = linearIndex(x,y, pixPerSide);
-      data{frame}.values(i,1) = round(index);
+      %index = sub2ind([pixPerSide, pixPerSide], x, y);
+      %My own linear index is row by row concatination
+      data{frame}.values(i,1) = index;
       data{frame}.values(i,2) = m(i,3);   %magnitude
       if x > pixPerSide || y > pixPerSide %bounds checking
         fprintf('Bounds error. x = %d y = %d index = %d\n',x,y,index);
