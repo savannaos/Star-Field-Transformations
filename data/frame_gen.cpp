@@ -40,22 +40,9 @@ void genFrame(StarCoordBounds& scb, const Container& stars, std::ofstream& write
 }
 //Shift all of the stars
 template<typename Container>
-void moveStars(double thetaChange, double phiChange, Container& stars){
+void moveStars(StarMovement& starMove, Container& stars){
   for(auto &s: stars){
-    s.theta = s.theta + thetaChange;
-    s.phi = s.phi + phiChange;
-    if(s.theta > ( 2 * M_PI)){ //we reached the end, loop back
-      s.theta = s.theta - ( 2 * M_PI);
-    }
-    if(s.phi > ( 2 * M_PI)){ //we reached the end, loop back
-      s.phi = s.phi - ( 2 * M_PI);
-    }
-    if(s.theta < 0){
-      s.theta = s.theta + 2* M_PI;
-    }
-    if(s.phi < 0){
-      s.phi = s.phi + 2* M_PI;
-    }
+    starMove.moveStar(s);
   }
 }
 template<typename Container>
@@ -64,12 +51,15 @@ void genOneMovement(int numFrames, int factor, StarCoordBounds& coordBounds,Cont
   starMove.selectMovement();
   for(int i = 0; i < numFrames; i++){
     std::ofstream outFile;
-    std::string fname = "frames/" + starMove.name() + std::to_string(factor) + "/frame" + std::to_string(i) + ".txt";
+    std::string foldname = "frames/" + starMove.name() + std::to_string(factor);
+    mkdir(foldname.c_str(), ACCESSPERMS);
+    std::string fname =  foldname + "/frame" + std::to_string(i) + ".txt";
     outFile.open(fname.c_str());
     genFrame(coordBounds, stars, outFile);
     outFile.close();
-    std::cout << starMove.thetaChange() << " " << starMove.phiChange() << std::endl;
-    moveStars(starMove.thetaChange(), starMove.phiChange(), stars);
+//    std::cout << starMove.thetaChange() << " " << starMove.phiChange() << std::endl;
+//    moveStars(starMove.thetaChange(), starMove.phiChange(), stars);
+    moveStars(starMove, stars);
   }
 }
 
@@ -93,8 +83,8 @@ int main(){
  vector<Star> stars;
  initStars(stars);
  StarCoordBounds sc;
- int numFrames = 20;
- int speedFactor = 10; //for 8px/s
+ int numFrames = 100;
+ int speedFactor = 256; //for 8px/s
  //genAllMovement(numFrames, speedFactor, sc, stars);
  genOneMovement(numFrames, speedFactor, sc, stars);
  return 0;

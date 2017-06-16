@@ -73,7 +73,7 @@ for i_tier = 1, tiers do
    weightInitRange[i_tier]  = weightInitRange[1];
    weightSparsity[i_tier]   = weightSparsity[1];
    plasticity[i_tier]       = plasticity[1];
-   learningRate[i_tier]     = learningRate[1];       
+   learningRate[i_tier]     = learningRate[1];
 end
 for i_tier = 1, tiers do
    --learningRate[i_tier]   = learningRate[i_tier]/(stride[i_tier]*stride[i_tier]);
@@ -164,7 +164,7 @@ local pvParams = {
       suppressNonplasticCheckpoints       = false;
       writeTimescales                     = true;
       errorOnNotANumber                   = false;
-   } 
+   }
 }
 if initPath then
    pvParams.column.initializeFromCheckpointDir = initializeFromCheckpointDir;
@@ -204,9 +204,9 @@ for i_frame = 1, numFrames do
       start_frame_index_array[i_batch] = startFrame + i_frame-1 + math.floor((i_batch-1)*numImages/nbatch);
       skip_frame_index_array[i_batch] = skipFrame;
    end
-   
+
    pv.addGroup(pvParams,
-	       "Frame" .. "_" .. i_frame-1, 
+	       "Frame" .. "_" .. i_frame-1,
 	       {
 		  groupType                           = "PvpLayer";
 		  nxScale                             = 1;
@@ -308,8 +308,8 @@ local gpuGroupIdx           = -1;
 local errorWrite            = -1 -- displayPeriod * displayMultiple;
 local lcaLayer              = lcaPrefix .. lcaIndex .. "Muggle";
 local probeLayer            = lcaLayer;
-local errorLayer            = nil; 
-local reconLayer            = nil; 
+local errorLayer            = nil;
+local reconLayer            = nil;
 local inputDCALayerScale    = nil;
 local inputDCALayer         = nil
 local inputDCALayerFeatures = nil;
@@ -327,7 +327,7 @@ local reconDCALayerX        = nil;
 
 
 for muggleFlag = 0, 1 do
-   
+
    inputLayer               = "Frame";
    inputCloneLayer          = "Frame";
    lcaPrefix                = "S";
@@ -342,8 +342,8 @@ for muggleFlag = 0, 1 do
       lcaLayer              = lcaPrefix .. lcaIndex .. "Oracle";
    end
    probeLayer               = lcaLayer;
-   errorLayer               = nil; 
-   reconLayer               = nil; 
+   errorLayer               = nil;
+   reconLayer               = nil;
    inputDCALayerScale       = nil;
    inputDCALayer            = nil
    inputDCALayerFeatures    = nil;
@@ -357,12 +357,12 @@ for muggleFlag = 0, 1 do
    lcaLayerDiff             = lcaPrefix .. lcaIndex .. "Diff";
    reconLayerX              = nil;
    reconDCALayerX           = nil;
-   
+
    for i_tier = 1, tiers do
-      
+
       --LCA Stack Layers------------------------------------
       ------------------------------------------------------
-      
+
       if i_tier > 1 then
 	 basePhase             = basePhase + 3;
 	 inputDCALayerScale    = inputLayerScale;
@@ -397,7 +397,7 @@ for muggleFlag = 0, 1 do
       if i_tier > 1 then
 	 frame_offset = temporalSize[i_tier-1]-1;
 	 frame_stride = temporalStride[i_tier-1];
-      end      
+      end
       for i_frame = 1, numFrames - frame_offset, frame_stride do
 
 	 errorLayer        = inputLayer .. "_" .. i_frame-1 .. "Recon" .. "Error";
@@ -407,7 +407,7 @@ for muggleFlag = 0, 1 do
 	    errorLayer     = errorLayer .. "Oracle";
 	 end
 	 reconLayer        = inputLayer .. "_" .. i_frame-1 .. "Recon" .. lcaLayer;
-	 
+
 	 if energyProbeFlag then
 	    pv.addGroup(pvParams,
 			errorLayer .. "L2Probe",
@@ -424,7 +424,7 @@ for muggleFlag = 0, 1 do
 			}
 	    )
 	 end
-	 
+
 	 --Error layer
 	 pv.addGroup(pvParams,
 		     errorLayer,
@@ -478,16 +478,16 @@ for muggleFlag = 0, 1 do
 	    pvParams[reconLayer].writeStep              = writeStep;
 	    pvParams[reconLayer].initialWriteTime       = writeStep;
 	 end
-	 
+
       end -- i_frame
-      
-      if i_tier > 1 then	 
+
+      if i_tier > 1 then
 	 local frame_offset = 0;
 	 local frame_stride = 1;
 	 if i_tier > 2 then
 	    frame_offset = temporalSize[i_tier-2]-1;
 	    frame_stride = temporalStride[i_tier-2];
-	 end      
+	 end
 	 for i_frame = 1, numFrames - frame_offset, frame_stride do
 
 	    reconDCALayer     = inputDCALayer .. "_" .. i_frame-1 .. "Recon" .. lcaLayer;
@@ -527,10 +527,10 @@ for muggleFlag = 0, 1 do
 
 	 end -- i_frame
       end -- i_tier > 1
-      
+
       --LCA layer
       for i_frame = 1, numFrames - temporalSize[i_tier] + 1, temporalStride[i_tier] do
-	 
+
 	 if energyProbeFlag then
 	    pv.addGroup(pvParams,
 			lcaLayer .. "_" .. i_frame-1 .. "FirmThreshProbe",
@@ -546,7 +546,7 @@ for muggleFlag = 0, 1 do
 			}
 	    )
 	 end
-	 
+
 	 pv.addGroup(pvParams,
 		     lcaLayer .. "_" .. i_frame-1,
 		     {
@@ -589,7 +589,7 @@ for muggleFlag = 0, 1 do
 	    pvParams[lcaLayer .. "_" .. i_frame-1].triggerBehavior                     = "resetStateOnTrigger";
 	    pvParams[lcaLayer .. "_" .. i_frame-1].triggerResetLayerName               = lcaLayer .. "Clone" .. "_" .. i_frame + temporalStride[i_tier] - 1;
 	 end
-	 
+
 	 --Error layer
 	 pv.addGroup(pvParams,
 		     lcaLayer .. "Clone" .. "_" .. i_frame-1,
@@ -651,19 +651,19 @@ for muggleFlag = 0, 1 do
 			}
 	    )
 	 end -- muggleFlag == 1
-	       
+
       end -- i_frame
-      
-      
+
+
       --LCA Stack Connections---------------------------------------------
       --------------------------------------------------------------------
-      
+
       local frame_offset = 0;
       local frame_stride = 1;
       if i_tier > 1 then
 	 frame_offset = temporalSize[i_tier-1]-1;
 	 frame_stride = temporalStride[i_tier-1];
-      end      
+      end
       for i_frame = 1, numFrames - frame_offset, frame_stride do
 
 	 errorLayer        = inputLayer .. "_"  .. i_frame-1 .. "Recon" .. "Error";
@@ -673,7 +673,7 @@ for muggleFlag = 0, 1 do
 	    errorLayer     = errorLayer .. "Oracle";
 	 end
 	 reconLayer        = inputLayer .. "_"  .. i_frame-1 .. "Recon" .. lcaLayer;
-	 
+
 	 pv.addGroup(pvParams,
 		     inputCloneLayer .. "_" .. i_frame-1 .. "To" .. errorLayer,
 		     {
@@ -719,7 +719,7 @@ for muggleFlag = 0, 1 do
 	       pvParams[reconLayer .. "To" .. errorLayerX].delay = {minDelay};
 	    end
 	 end -- if muggleFlag == 1
-	 
+
 	 pv.addGroup(pvParams,
 		     reconLayer .. "To" .. errorLayer,
 		     {
@@ -733,19 +733,19 @@ for muggleFlag = 0, 1 do
 	 if not immediateLayerPublish then
 	    pvParams[reconLayer .. "To" .. errorLayer].delay = {minDelay};
 	 end
-	 
-	 
+
+
       end -- i_frame
-      
+
       if i_tier > 1 then
 	 local frame_offset = 0;
 	 local frame_stride = 1;
 	 if i_tier > 2 then
 	    frame_offset = temporalSize[i_tier-2]-1;
 	    frame_stride = temporalStride[i_tier-2];
-	 end      
+	 end
 	 for i_frame = 1, numFrames - frame_offset, frame_stride do
-	    
+
 	    reconDCALayer     = inputDCALayer .. "_" .. i_frame-1 .. "Recon" .. lcaLayer;
 	    errorDCALayer     = inputDCALayer .. "_" .. i_frame-1 .. "Recon" .. "Error";
 	    if muggleFlag == 1 then
@@ -796,18 +796,18 @@ for muggleFlag = 0, 1 do
 	    end -- if MuggleFlag == 1
 
 	 end -- i_frame
-	 
+
       end -- i_tier > 1
-      
-      
+
+
       local frame_offset = 0;
       local frame_stride = 1;
       if i_tier > 1 then
 	 frame_offset = temporalSize[i_tier-1]-1;
 	 frame_stride = temporalStride[i_tier-1];
-      end      
+      end
       for i_frame = 1, numFrames - frame_offset, frame_stride do
-	 
+
 	 errorLayer        = inputLayer .. "_"   .. i_frame-1 .. "Recon" .. "Error";
 	 if muggleFlag == 1 then
 	    errorLayer    = errorLayer .. "Muggle";
@@ -815,20 +815,20 @@ for muggleFlag = 0, 1 do
 	    errorLayer    = errorLayer .. "Oracle";
 	 end
 	 reconLayer        = inputLayer .. "_"   .. i_frame-1 .. "Recon" .. lcaLayer;
-	 
+
 	 for i_delay = 1, numFrames - temporalSize[i_tier] + 1, temporalStride[i_tier] do
-	    
+
 	    local delta_frame = i_frame - i_delay
 	    local temporalSizeLCA = 1;
 	    if i_tier > 1 then
 	       temporalSizeLCA = temporalSize[i_tier-1];
 	    end
 	    if (delta_frame >= 0 and (delta_frame + temporalSizeLCA) <= temporalSize[i_tier]) then
-	       
+
 	       if i_delay == 1 then
 
 		  if muggleFlag == 0 then
-		     
+
 		     pv.addGroup(pvParams,
 				 lcaLayer .. "_" .. 0 .. "To" .. errorLayer,
 				 {
@@ -873,7 +873,7 @@ for muggleFlag = 0, 1 do
 				    nxp                                 = patchSize[i_tier];
 				    nyp                                 = patchSize[i_tier];
 				    plasticityFlag                      = plasticity[i_tier];
-				    dWMax                               = learningRate[i_tier]; 
+				    dWMax                               = learningRate[i_tier];
 				    weightInitType                      = "UniformRandomWeight";
 				    wMinInit                            = -weightInitRange[i_tier];
 				    wMaxInit                            = weightInitRange[i_tier];
@@ -884,7 +884,7 @@ for muggleFlag = 0, 1 do
 		     if not immediateLayerPublish then
 			pvParams[lcaLayer .. "_" .. 0 .. "To" .. errorLayer].delay = {minDelay};
 		     end
-		     
+
 		     if initPath then
 			pvParams[lcaLayer .. "_" .. 0 .. "To" .. errorLayer].initializeFromCheckpointFlag = true;
 			pvParams[lcaLayer .. "_" .. 0 .. "To" .. errorLayer].weightInitType               = "FileWeight";
@@ -894,7 +894,7 @@ for muggleFlag = 0, 1 do
 			pvParams[lcaLayer .. "_" .. 0 .. "To" .. errorLayer].initWeightsFile           = initializeFromCheckpointDir .. "/" ..                           lcaLayer .. "_" .. 0 .. "To" .. errorLayer .. "_W.pvp";
 			-- end
 		     end
-		     
+
 		     if delta_frame > 0 then
 			pvParams[lcaLayer .. "_" .. 0 .. "To" .. errorLayer].normalizeMethod      = "normalizeGroup";
 			pvParams[lcaLayer .. "_" .. 0 .. "To" .. errorLayer].normalizeGroupName   = lcaLayer .. "_" .. 0 .. "To" .. inputLayer .. "_" .. 0 .. "Recon" .. "Error" .. "Oracle";
@@ -926,7 +926,7 @@ for muggleFlag = 0, 1 do
 		     end
 
 		  end -- muggleFlag == 0
-		  
+
 	       else -- i_delay > 1
 
 		  if muggleFlag == 0 then
@@ -949,7 +949,7 @@ for muggleFlag = 0, 1 do
 		     if not immediateLayerPublish then
 			pvParams[lcaLayer .. "_" .. i_delay-1 .. "To" .. errorLayer].delay = {minDelay};
 		     end
-		     
+
 		  else  -- if muggleFlag == 1
 
 		     errorLayerX                                  = inputLayerX .. "_" .. i_frame-1 .. "Recon" .. "Error" .. "X";
@@ -973,7 +973,7 @@ for muggleFlag = 0, 1 do
 		     end
 
 		  end -- if muggleFlag == 0
-		  
+
 	       end -- i_delay > 1
 
 	       -- assume last frame is actually in the future.
@@ -1002,9 +1002,9 @@ for muggleFlag = 0, 1 do
 		  if not immediateLayerPublish then
 		     pvParams[errorLayer .. "To" .. lcaLayer .. "_" .. i_delay-1].delay = {minDelay};
 		  end
-		  
+
 	       end -- frame not in future if-then block
-	       
+
 	       pv.addGroup(pvParams,
 			   lcaLayer .. "_" .. i_delay-1 .. "To" .. reconLayer,
 			   {
@@ -1037,9 +1037,9 @@ for muggleFlag = 0, 1 do
 	 if i_tier > 2 then
 	    frame_offset = temporalSize[i_tier-2]-1;
 	    frame_stride = temporalStride[i_tier-2];
-	 end      
+	 end
 	 for i_frame = 1, numFrames - frame_offset, frame_stride do
-	    
+
 	    errorLayer        = inputLayer .. "_"   .. 0 .. "Recon" .. "Error";
 	    if muggleFlag == 1 then
 	       errorLayer    = errorLayer .. "Muggle";
@@ -1056,9 +1056,9 @@ for muggleFlag = 0, 1 do
 		  errorDCALayer    = errorDCALayer .. "Oracle";
 	       end
 	    end
-	    
+
 	    for i_delay = 1, numFrames - temporalSize[i_tier] + 1, temporalStride[i_tier] do
-	       
+
 	       local delta_frame = i_frame - i_delay
 	       local temporalSizeDCA = 1;
 	       if i_tier > 2 then
@@ -1069,7 +1069,7 @@ for muggleFlag = 0, 1 do
 		  if i_delay == 1 then
 
 		     if muggleFlag == 0 then
-			
+
 			pv.addGroup(pvParams,
 				    lcaLayer .. "_" .. 0 .. "To" .. errorDCALayer,
 				    pvParams[lcaLayer .. "_" .. 0 .. "To" .. errorLayer],
@@ -1080,7 +1080,7 @@ for muggleFlag = 0, 1 do
 			)
 			pvParams[lcaLayer .. "_" .. 0 .. "To" .. errorDCALayer].normalizeMethod	        = "normalizeGroup";
 			pvParams[lcaLayer .. "_" .. 0 .. "To" .. errorDCALayer].normalizeGroupName 	= lcaLayer .. "_" .. 0 .. "To" .. errorLayer;
-			
+
 			if (i_tier > 2) and (stride[i_tier] < inputWidth*nonConvHeight) and (stride[i_tier] < inputHeight*nonConvHeight) then
 			   pvParams[lcaLayer .. "_" .. i_delay-1 .. "To" .. errorDCALayer].nxp   = patchSize[i_tier-1] + (patchSize[i_tier]-1)*(stride[i_tier-1]/stride[i_tier-2]);
 			   pvParams[lcaLayer .. "_" .. i_delay-1 .. "To" .. errorDCALayer].nyp   = patchSize[i_tier-1] + (patchSize[i_tier]-1)*(stride[i_tier-1]/stride[i_tier-2]);
@@ -1093,8 +1093,8 @@ for muggleFlag = 0, 1 do
 			elseif i_tier == tiers and stride[i_tier] == inputHeight*nonConvHeight then
 			   pvParams[lcaLayer .. "_" .. i_delay-1 .. "To" .. errorDCALayer].nxp   = stride[tiers]/(stride[i_tier-2]);
 			   pvParams[lcaLayer .. "_" .. i_delay-1 .. "To" .. errorDCALayer].nyp   = stride[tiers]/(stride[i_tier-2]);
-			end   
-			
+			end
+
 			if initPath then
 			   pvParams[lcaLayer .. "_" .. i_delay-1 .. "To" .. errorDCALayer].initializeFromCheckpointFlag = true;
 			   pvParams[lcaLayer .. "_" .. i_delay-1 .. "To" .. errorDCALayer].weightInitType               = "FileWeight";
@@ -1128,11 +1128,11 @@ for muggleFlag = 0, 1 do
 			end
 
 		     end -- if muggleFlag == 0
-		     
+
 		  else -- i_delay > 1
-		     
+
 		     if muggleFlag == 0 then
-			
+
 			pv.addGroup(pvParams,
 				    lcaLayer .. "_" .. i_delay-1 .. "To" .. errorDCALayer,
 				    {
@@ -1175,9 +1175,9 @@ for muggleFlag = 0, 1 do
 			end
 
 		     end -- if muggleFlag == 0
-		     
+
 		  end -- i_delay == 1
-		  
+
 		  if i_tier > muggleFlag+1 or i_frame < numFrames then
 		     --gpuGroupIdx = (i_tier-1) * temporalSize[tiers] * 2  + temporalSize[tiers] + delta_frame;
 		     pv.addGroup(pvParams,
@@ -1199,8 +1199,8 @@ for muggleFlag = 0, 1 do
 				 postLayerName                       = reconDCALayer;
 				 originalConnName                    = lcaLayerX .. "_" .. 0 .. "To" .. inputDCALayerX  .. "_" .. delta_frame .. "Recon" .. "Error" .. "Oracle";
 			      }
-		  )	    
-		  
+		  )
+
 	       end -- if i_delay > 0
 	    end -- for i_delay
 	 end -- for i_frame
@@ -1213,16 +1213,16 @@ for muggleFlag = 0, 1 do
 	 if i_tier > 1 then
 	    frame_offset = temporalSize[i_tier-1]-1;
 	    frame_stride = temporalStride[i_tier];
-	 end      
+	 end
 	 for i_frame = 1, numFrames - frame_offset, frame_stride do
-	    
+
 	    errorLayer        = inputLayer .. "_" .. i_frame-1 .. "Recon" .. "Error";
 	    if muggleFlag == 1 then
 	       errorLayer    = errorLayer .. "Muggle";
 	    else
 	       errorLayer    = errorLayer .. "Oracle";
 	    end
-	    
+
 	    pv.addGroup(pvParams,
 			errorLayer .. "To" .. inputLayer .. "_" .. i_frame-1,
 			{
@@ -1236,7 +1236,7 @@ for muggleFlag = 0, 1 do
 	    if not immediateLayerPublish then
 	       pvParams[errorLayer .. "To" .. inputLayer .. "_" .. i_frame-1].delay = {minDelay};
 	    end
-	    
+
 	 end -- i_frame
       end -- i_tier > 1
 
@@ -1245,14 +1245,14 @@ for muggleFlag = 0, 1 do
       local frame_stride = 1;
       if muggleFlag == 0 then
 	 for i_frame = 1, numFrames - frame_offset, frame_stride do
-	    
+
 	    for i_delay = 1, numFrames - temporalSize[i_tier] + 1, temporalStride[i_tier] do
-	       
+
 	       local delta_frame = i_frame - i_delay
 	       if (delta_frame >= 0 and delta_frame < temporalSizeATA[i_tier]) then
-		  
+
 		  if i_delay == 1 then
-		     
+
 		     pv.addGroup(pvParams,
 				 lcaLayer .. "_" .. i_delay-1 .. "To" .. "Frame" .. "_" .. i_frame-1 .. "_ATA",
 				 {
@@ -1294,9 +1294,9 @@ for muggleFlag = 0, 1 do
 		     if not immediateLayerPublish then
 			pvParams[lcaLayer .. "_" .. i_delay-1 .. "To" .. "Frame" .. "_" .. i_frame-1 .. "_ATA"].delay = {minDelay};
 		     end
-		     
+
 		  else
-		     
+
 		     pv.addGroup(pvParams,
 				 lcaLayer .. "_" .. i_delay-1 .. "To" .. "Frame" .. "_" .. i_frame-1 .. "_ATA",
 				 {
@@ -1312,19 +1312,19 @@ for muggleFlag = 0, 1 do
 				    originalConnName                    = lcaLayer .. "_" .. 0 .. "To" .. "Frame" .. "_" .. delta_frame .. "_ATA";
 				 }
 		     )
-		     
+
 		  end -- i_delay == 1
-		  
+
 	       end -- i_frame < temporaleSizeATA
-	       
+
 	    end -- i_delay
-	    
+
 	 end -- i_frame
-	 
+
       end -- muggleFlag
-      
+
    end  -- i_tier
-   
+
 end -- muggleFlag
 
 --Probes------------------------------------------------------------

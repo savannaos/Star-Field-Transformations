@@ -10,6 +10,8 @@ class StarCoordBounds {
   double phiHigh;
   double dTheta;
   double dPhi;
+  double xc;
+  double yc;
 public:
   StarCoordBounds(){ //default parameters
     dTheta = M_PI/10;
@@ -18,6 +20,8 @@ public:
     thetaHigh = M_PI/2 + (dTheta/2);
     phiLow = 0;
     phiHigh  = dPhi;
+    yc = (phiLow + phiHigh) / 2;
+    xc = (thetaLow + thetaHigh) / 2;
   }
   StarCoordBounds(double tl, double th, double pl, double ph,
                   double dt, double dp) : thetaLow(tl), thetaHigh(th),
@@ -27,6 +31,8 @@ public:
   double maxTheta() {return thetaHigh;}
   double minPhi()   {return phiLow;}
   double maxPhi()   {return phiHigh;}
+  double midx ()    {return xc;}
+  double midy ()    {return yc;}
 };
 
 #endif

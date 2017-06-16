@@ -1,0 +1,14 @@
+1. Generate stars - star_gen.cpp. This will generate 9028 (number of visible
+   stars from Earth) random theta and phi coordinates that range from 0 to  2 pi
+   and random magnitudes that follow a normal distribution (8.5,2). These star
+   values are saved in star_data.txt.
+2. Generate frames - frame_gen.cpp. This reads in star_data.txt to save a Container
+   of stars. For each frame in the desired sequence, it will
+      -write the star values of the stars that are located within the view (see starCoordBounds.hpp for these dimensions).
+      -shift all the stars as specified in starMovement.hpp.
+3. Generate pvp file - pv_frames.m. Reads and saves the frame files into a cell array
+    that follows the format needed in writepvpsparsevaluesfile.m. Converts theta and
+    phi values to x and y coords in an image that has dimension pixPerSide x pixPerSide.
+4. Plot data to ensure accuracy- plotStars.m. Reads in pvp file and extracts coordinates
+    to plot for each frame. Should see expected movement.
+5. Run Petavision
