@@ -101,7 +101,7 @@ for i_tier = 1, tiers do
 end
 local paramsFilename        = expName .. "_" .. numFrames .. "_" .. displayPeriod*displayMultiple .. "_" .. runName .. runVersion .. ".params";
 local imageInputPath        = scratchPath .. "/data/starFieldpvp/" .. "up256.pvp";
-local outputPath            = "/nh/compneuro/scratch/starOut";
+local outputPath            = "/nh/compneuro/scratch/starOut" .. expName .. "_" .. numFrames .. "_" .. displayPeriod*displayMultiple .."/" .. runName .. runVersion;
 local initPath              = scratchPath .. "/" .. expName .. "_" .. numFrames .. "_" .. displayPeriod*displayMultiple .."/" .. runName .. runVersion-1;
 if runVersion == 1 then
    initPath = nil;

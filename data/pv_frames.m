@@ -2,14 +2,15 @@ function pv_frames(name)
   % Savanna Smith, 5/30/17 updated: 6/8/17
   % create cell array of the data in correct format
   % in order to call writepvpsparsevaluesfile.m
-  addpath("../OpenPV/mlab/util");        %where pvp function is located
+  addpath("../../OpenPV/mlab/util");        %where pvp function is located
   dTheta = pi/5;
   dPhi = pi/10;
   pixPerSide = 2048;
   theta0 = pi/2 - pi/20;                 %bias
   pathName = ['frames/' name '/'];
   d = dir([pathName 'frame' '*.txt']);
-  numFrames = length(d(not([d.isdir])));
+%  numFrames = length(d(not([d.isdir])));
+numFrames = 20;
   data = cell(numFrames,1);
 
   % LAMBDAS FOR COMPUTING INDEX
