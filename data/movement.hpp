@@ -9,8 +9,7 @@ public:
   Movement(double tc, double pc, std::string name) {
     _thetaChange = tc; _phiChange = pc; _name = name; _rotation = 0;
   }
-  //  _thetaChange(tc),
-  //         _phiChange(pc), _speed(speed), _name(name){}
+
   double thetaChange() {return _thetaChange;}
   double phiChange() {return _phiChange;}
   std::string name() {return _name;}
@@ -29,7 +28,6 @@ public:
     if(s.phi < 0){
       s.phi = s.phi + 2* M_PI;
     }
-  //std::cout << "non circular" << std::endl;
   }
 };
 
@@ -44,8 +42,10 @@ public:
     double xdiff = s.theta - cx;
     double ydiff = s.phi - cy;
     double theta = _rotation;
-    double x = (cos(theta) * xdiff) - (sin(theta) * ydiff) + cx;
-    double y = (sin(theta) * xdiff) - (cos(theta) * ydiff) + cy;
+    double x = ((cos(theta) * xdiff) - (sin(theta) * ydiff)) + cx;
+    double y = ((sin(theta) * xdiff) + (cos(theta) * ydiff)) + cy;
+    // std::cout << "theta: " << s.theta << " phi: " << s.phi
+    //  << " xdiff: " << xdiff << " ydiff: " << ydiff << " computedx: " << x << " computedy: " << y << std::endl;
     if(x > ( 2 * M_PI)){ x -= ( 2 * M_PI);}
     if(y > ( 2 * M_PI)){ y -= ( 2 * M_PI);}
     if(x < 0){           x += 2* M_PI;}

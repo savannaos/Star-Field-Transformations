@@ -9,7 +9,7 @@
 #include <vector>
 #include <sys/stat.h>
 /*  Savanna Smith, 5/25/17
-    Generates frames for star data */
+    Generates sequential frames for star data */
 
 /* read each line of input file and generates star object*/
 template<typename Container>
@@ -45,6 +45,7 @@ void moveStars(StarMovement& starMove, Container& stars){
     starMove.moveStar(s);
   }
 }
+//Generates frames for the movement the user selects when prompted
 template<typename Container>
 void genOneMovement(int numFrames, int factor, StarCoordBounds& coordBounds,Container& stars){
   StarMovement starMove(factor);
@@ -57,12 +58,10 @@ void genOneMovement(int numFrames, int factor, StarCoordBounds& coordBounds,Cont
     outFile.open(fname.c_str());
     genFrame(coordBounds, stars, outFile);
     outFile.close();
-//    std::cout << starMove.thetaChange() << " " << starMove.phiChange() << std::endl;
-//    moveStars(starMove.thetaChange(), starMove.phiChange(), stars);
     moveStars(starMove, stars);
   }
 }
-
+//Cycles through all movements in the StarMovement object to create frames.
 template<typename Container>
 void genAllMovement(int numFrames, int factor,StarCoordBounds& coordBounds,Container& stars){
   StarMovement starMove(factor);
@@ -83,8 +82,8 @@ int main(){
  vector<Star> stars;
  initStars(stars);
  StarCoordBounds sc;
- int numFrames = 100;
- int speedFactor = 256; //for 8px/s
+ int numFrames = 20;
+ int speedFactor = 10;
  //genAllMovement(numFrames, speedFactor, sc, stars);
  genOneMovement(numFrames, speedFactor, sc, stars);
  return 0;
