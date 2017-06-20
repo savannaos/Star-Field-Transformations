@@ -3,18 +3,18 @@ package.path = package.path .. ";" .. "/home/ssmith/OpenPV/parameterWrapper/?.lu
 local inputWidth            = 256;
 local inputHeight           = 256;
 local inputFeatures         = 1;
-local nonConvFlag           = true;
+local nonConvFlag           = false;
 local nonConvHeight         = 1/4;
-local tiers                 = 4;
+local tiers                 = 2;
 local stride                = {};
 for i_tier = 1, tiers do
-   stride[i_tier]           = math.pow(2, i_tier-1+1);
+   stride[i_tier]           = math.pow(2, i_tier-1); --+1
 end
 if nonConvFlag then
    stride[tiers]            = inputHeight*nonConvHeight;
 end
 patchSize                   = {};
-patchSize[1]                = 10; --9; --5;
+patchSize[1]                = 9; --9; --5;
 for i_tier = 2, tiers do
    patchSize[i_tier]        = 1+patchSize[1]/stride[1];
 end
@@ -45,7 +45,7 @@ end
 local temporalSizeATA       = temporalSize;
 local numFrames             = temporalSize[tiers] + 2*temporalStride[tiers]; --8;
 
-local nbatch                = 24;      --Batch size
+local nbatch                = 10;      --24 Batch size
 local batchwidth            = 1;
 local startFrame            = 1;
 local skipFrame             = 1; --*numFrames*nbatch;
@@ -85,7 +85,7 @@ end
 
 local displayMultiple       = 5;
 local displayPeriod         = 100;   --Number of timesteps to find sparse approximation
-local numEpochs             = 10;      --Number of times to run through dataset
+local numEpochs             = 1;      --Number of times to run through dataset
 local numImages             = 20;  --Total number of frames in dataset
 local stopTime              = (numImages * displayPeriod * displayMultiple * numEpochs) / skipFrame;
 local stopTimeTmp           = "000350000";
@@ -101,7 +101,7 @@ for i_tier = 1, tiers do
 end
 local paramsFilename        = expName .. "_" .. numFrames .. "_" .. displayPeriod*displayMultiple .. "_" .. runName .. runVersion .. ".params";
 local imageInputPath        = scratchPath .. "/data/starFieldpvp/" .. "up256.pvp";
-local outputPath            = "/nh/compneuro/scratch/starOut" .. expName .. "_" .. numFrames .. "_" .. displayPeriod*displayMultiple .."/" .. runName .. runVersion;
+local outputPath            = "/nh/compneuro/scratch/starOut/" .. expName .. "_" .. numFrames .. "_" .. displayPeriod*displayMultiple .."/" .. runName .. runVersion;
 local initPath              = scratchPath .. "/" .. expName .. "_" .. numFrames .. "_" .. displayPeriod*displayMultiple .."/" .. runName .. runVersion-1;
 if runVersion == 1 then
    initPath = nil;
