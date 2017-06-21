@@ -1,5 +1,5 @@
 addpath('../OpenPV/mlab/util');
-name = 'circular10';
+name = 'leftupdowndppspeed256';
 star_file = ['starFieldpvp/' name '.pvp'];
 [star_data, star_hdr] = readpvpfile(star_file);
 star_frames = star_hdr.nbands;

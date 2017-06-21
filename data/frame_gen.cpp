@@ -63,17 +63,22 @@ void genOneMovement(int numFrames, int factor, StarCoordBounds& coordBounds,Cont
 }
 //Cycles through all movements in the StarMovement object to create frames.
 template<typename Container>
-void genAllMovement(int numFrames, int factor,StarCoordBounds& coordBounds,Container& stars){
+void genAllMovement(int numFrames, int factor,StarCoordBounds& coordBounds,std::string& name, Container& stars){
   StarMovement starMove(factor);
   int totalFrames = numFrames * starMove.numDirections();
+  std::string foldname = "frames/" + name + std::to_string(factor);
+  mkdir(foldname.c_str(), ACCESSPERMS);
   for(int i = 0; i<totalFrames; i++){
     std::ofstream outFile;
-    std::string fname = "frames/allspeed" + std::to_string(factor) + "/frame" + std::to_string(i) + ".txt";
+    std::string fname = foldname + "/frame" + std::to_string(i) + ".txt";
     outFile.open(fname.c_str());
     genFrame(coordBounds, stars, outFile);
     outFile.close();
-    moveStars(starMove.thetaChange(), starMove.phiChange(), stars);
-    if(i%numFrames==0) starMove.nextMovement();
+    if((i+1)%numFrames==0){
+      // std::cout << i << " ";
+      starMove.nextMovement();
+    }
+    moveStars(starMove,stars);
   }
 }
 
@@ -82,9 +87,10 @@ int main(){
  vector<Star> stars;
  initStars(stars);
  StarCoordBounds sc;
- int numFrames = 20;
- int speedFactor = 10;
- //genAllMovement(numFrames, speedFactor, sc, stars);
- genOneMovement(numFrames, speedFactor, sc, stars);
+ int numFrames = 10;
+ int speedFactor = 256;
+ std::string fname = "leftupdowndppspeed";
+ genAllMovement(numFrames, speedFactor, sc, fname, stars);
+ // genOneMovement(numFrames, speedFactor, sc, stars);
  return 0;
 }

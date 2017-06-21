@@ -16,16 +16,16 @@ public:
       double tspeed = (M_PI/5) / factor;
       double pspeed = (M_PI/10) /factor;
     _movements.push_back(std::make_shared<Movement>(0,-1* pspeed,"left"));
-    _movements.push_back(std::make_shared<Movement>(0, pspeed, "right"));
+    // _movements.push_back(std::make_shared<Movement>(0, pspeed, "right"));
     _movements.push_back(std::make_shared<Movement>(tspeed, 0, "up"));
     _movements.push_back(std::make_shared<Movement>(-1 * tspeed, 0, "down"));
     _movements.push_back(std::make_shared<Movement>(tspeed, pspeed, "diagonalplusplus"));
-    _movements.push_back(std::make_shared<Movement>(-1 * tspeed, -1 * pspeed, "diagonalminusminus"));
-    _movements.push_back(std::make_shared<Movement>(tspeed, -1 * pspeed, "diagonalplusminus"));
-    _movements.push_back(std::make_shared<Movement>(-1 * tspeed, pspeed, "diagonalminusminus"));
-    std::string name = "circular";
-    std::shared_ptr<Movement> m = std::make_shared<CirMovement>(0, 0, pspeed, name);
-    _movements.push_back(m);
+    // _movements.push_back(std::make_shared<Movement>(-1 * tspeed, -1 * pspeed, "diagonalminusminus"));
+    // _movements.push_back(std::make_shared<Movement>(tspeed, -1 * pspeed, "diagonalplusminus"));
+    // _movements.push_back(std::make_shared<Movement>(-1 * tspeed, pspeed, "diagonalminusminus"));
+    // std::string name = "circular";
+    // std::shared_ptr<Movement> m = std::make_shared<CirMovement>(0, 0, pspeed, name);
+    // _movements.push_back(m);
     _currentIndex = 0;
   }
   void selectMovement(){
@@ -42,7 +42,11 @@ public:
   double phiChange() {return _movements[_currentIndex]->phiChange();}
   double thetaChange() {return _movements[_currentIndex]->thetaChange();}
   std::string name() {return _movements[_currentIndex]->name();}
-  void nextMovement(){_currentIndex++;}
+  void nextMovement(){
+    _currentIndex++;
+    if(_currentIndex == _movements.size()) _currentIndex = 0;
+    std::cout << "Changing to movement " << _movements[_currentIndex]->name() << std::endl;
+  }
   void moveStar(Star& s) {
     _movements[_currentIndex]->move(s);
   }

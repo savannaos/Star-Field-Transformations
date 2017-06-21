@@ -9,8 +9,8 @@ function pv_frames(name)
   theta0 = pi/2 - pi/20;                 %bias
   pathName = ['frames/' name '/'];
   d = dir([pathName 'frame' '*.txt']);
-%  numFrames = length(d(not([d.isdir])));
-numFrames = 20;
+  numFrames = length(d(not([d.isdir])));
+  %numFrames = 20;
   data = cell(numFrames,1);
 
   % LAMBDAS FOR COMPUTING INDEX
