@@ -45,7 +45,7 @@ end
 local temporalSizeATA       = temporalSize;
 local numFrames             = temporalSize[tiers] + 2*temporalStride[tiers]; --8;
 
-local nbatch                = 10;      --24 Batch size
+local nbatch                = 8;      --24 Batch size
 local batchwidth            = 1;
 local startFrame            = 1;
 local skipFrame             = 1; --*numFrames*nbatch;
@@ -85,7 +85,7 @@ end
 
 local displayMultiple       = 5;
 local displayPeriod         = 100;   --Number of timesteps to find sparse approximation
-local numEpochs             = 1;      --Number of times to run through dataset
+local numEpochs             = 10;      --Number of times to run through dataset
 local numImages             = 20;  --Total number of frames in dataset
 local stopTime              = (numImages * displayPeriod * displayMultiple * numEpochs) / skipFrame;
 local stopTimeTmp           = "000350000";

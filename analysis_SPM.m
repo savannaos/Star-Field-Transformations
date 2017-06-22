@@ -9,7 +9,7 @@ setenv("GNUTERM","X11")
 nbatch = 1;
 batchwidth = 1;
 
-parent_output_dir = '/nh/compneuro/scratch/starOutstarField_SPM_9X9X4_18X18X8_6_500/train1'
+parent_output_dir = '/nh/compneuro/scratch/starOut/starField_SPM_9X9X4_18X18X8_6_500/train1'
 output_dir = parent_output_dir;
 i_batchsweep = 1;
 batchsweep_format_str = "%02d";
