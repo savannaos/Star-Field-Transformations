@@ -9,7 +9,7 @@ setenv("GNUTERM","X11")
 nbatch = 1;
 batchwidth = 1;
 
-parent_output_dir = '/nh/compneuro/scratch/starOut/starField_SPM_9X9X4_18X18X8_6_500/train1'
+parent_output_dir = '/nh/compneuro/scratch/starOut/starField_SPM_9X9X4_18X18X8_6_500/train16-22-17';
 output_dir = parent_output_dir;
 i_batchsweep = 1;
 batchsweep_format_str = "%02d";
@@ -230,7 +230,7 @@ for i_LCA = 1 : num_LCA_layers
 	    ATA_array((ATA_row-1)*ATA_patch_size(1)+1:ATA_row*ATA_patch_size(1), ...
 		      (ATA_col-1)*ATA_patch_size(2)+1:ATA_col*ATA_patch_size(2)) = ATA_uint8;
 	  endfor %% i_rank
-	  imagesc(uint8(permute(ATA_array,[2,1,3]))); box off; axis off; axis image;
+	  imagesc(uint8(permute(ATA_array,[2,1,3]))); box off; axis off; axis image; 
 	  saveas(fh_ATA, [parent_output_dir, filesep, title_str, '.png'], 'png');
 	endfor %% i_tableau
       endfor %% i_ATA_delay
