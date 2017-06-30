@@ -28,6 +28,43 @@ public:
     _movements.push_back(m);
     _currentIndex = 0;
   }
+
+  /* nframesPer: the # of frames each direction gets. Split into the number of speeds.
+     Example: nframesPer = 25, speeds = [5, 10, 50]. Each direction gets 25
+     frames, 8 at which are speed 5, 8 at speed 10, and 9 at speed 50. */
+  template<typename Container>
+  StarMovement(int nframesPer, Container& speeds){
+    int n = speeds.size();
+    if(n > nframesPer){
+      std::cout << "Error: Cannot have more speeds than the number of frames. "
+                << "Changing number of frames to the number of speeds."
+                <<std::endl;
+      nframesPer = n;
+    }
+    double d = nframesPer/n;
+    std::vector<int> durs;
+    for(int i=0; i < n-1; i++) durs[i] = floor(d);
+    if(nframesPer%n!=0)        durs[n-1] = ceil(d);
+    else                       durs[n-1] = floor(d);
+    for(int i = 0; i<n; i++){
+      double tspeed = (M_PI/5) / speeds[i];
+      double pspeed = (M_PI/10) /speeds[i];
+      _movements.push_back(std::make_shared<Movement>(0,-1* pspeed,"left", durs[i]));
+      _movements.push_back(std::make_shared<Movement>(0, pspeed,"right", durs[i]));
+      _movements.push_back(std::make_shared<Movement>(tspeed, 0,"up", durs[i]));
+      _movements.push_back(std::make_shared<Movement>(-1 * tspeed, 0,"down", durs[i]));
+      _movements.push_back(std::make_shared<Movement>(tspeed, pspeed,
+        "diagonalplusplus", durs[i]));
+      _movements.push_back(std::make_shared<Movement>(-1 * tspeed, -1 * pspeed,
+        "diagonalminusminus", durs[i]));
+      _movements.push_back(std::make_shared<Movement>(tspeed, -1 * pspeed,
+        "diagonalplusminus", durs[i]));
+      _movements.push_back(std::make_shared<Movement>(-1 * tspeed, pspeed,
+        "diagonalminusminus", durs[i]));
+    }
+    _currentIndex = 0;
+  }
+
   void selectMovement(){
     int direction;
     std::cout << "How would you like to shift the stars?" << std::endl
@@ -39,6 +76,7 @@ public:
     }
     _currentIndex = direction-1;
   }
+
   double phiChange() {return _movements[_currentIndex]->phiChange();}
   double thetaChange() {return _movements[_currentIndex]->thetaChange();}
   std::string name() {return _movements[_currentIndex]->name();}
