@@ -1,4 +1,4 @@
-name = 'variable_speeds_5-30';
+name = 'variable_speeds_6-30';
 star_frames = 200;
 for i_frame = 1:star_frames
   star_file = ['frames/' name '/frame' num2str(i_frame-1) '.txt'];
