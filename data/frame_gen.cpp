@@ -90,7 +90,7 @@ void genAllwithVariableSpeeds(int framesPerMvmt, c1& speeds, c2& stars){
   StarMovement starMove(framesPerMvmt, speeds);
   time_t t = time(0);
   tm *ltm = localtime(&t);
-  std::string foldname = "frames/variable_speeds_" + std::to_string(ltm->tm_mon)
+  std::string foldname = "frames/variable_speeds_" + std::to_string(ltm->tm_mon+1)
   + "-" + std::to_string(ltm->tm_mday) + "/";
   mkdir(foldname.c_str(), ACCESSPERMS);
   int count = 0;
