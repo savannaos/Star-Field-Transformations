@@ -4,10 +4,16 @@ protected:
   double      _thetaChange;
   double      _phiChange;
   double      _rotation;
+  int         _duration;
   std::string _name;
 public:
   Movement(double tc, double pc, std::string name) {
     _thetaChange = tc; _phiChange = pc; _name = name; _rotation = 0;
+    _duration = 1;
+  }
+  Movement(double tc, double pc, std::string name, int dur){
+    _thetaChange = tc; _phiChange = pc; _name = name; _rotation = 0;
+    _duration = dur;
   }
 
   double thetaChange() {return _thetaChange;}
