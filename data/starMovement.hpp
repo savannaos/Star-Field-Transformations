@@ -32,8 +32,7 @@ public:
   /* nframesPer: the # of frames each direction gets. Split into the number of speeds.
      Example: nframesPer = 25, speeds = [5, 10, 50]. Each direction gets 25
      frames, 8 at which are speed 5, 8 at speed 10, and 9 at speed 50. */
-  template<typename Container>
-  StarMovement(int nframesPer, Container& speeds){
+  StarMovement(int nframesPer, std::vector<int>& speeds){
     int n = speeds.size();
     if(n > nframesPer){
       std::cout << "Error: Cannot have more speeds than the number of frames. "
@@ -41,11 +40,11 @@ public:
                 <<std::endl;
       nframesPer = n;
     }
-    double d = nframesPer/n;
+    double d = (1.0 * nframesPer)/n;
     std::vector<int> durs;
-    for(int i=0; i < n-1; i++) durs[i] = floor(d);
-    if(nframesPer%n!=0)        durs[n-1] = ceil(d);
-    else                       durs[n-1] = floor(d);
+    for(int i=0; i < n-1; i++) durs.push_back(floor(d));
+    if(nframesPer%n!=0)        durs.push_back(ceil(d));
+    else                       durs.push_back(floor(d));
     for(int i = 0; i<n; i++){
       double tspeed = (M_PI/5) / speeds[i];
       double pspeed = (M_PI/10) /speeds[i];
@@ -79,11 +78,12 @@ public:
 
   double phiChange() {return _movements[_currentIndex]->phiChange();}
   double thetaChange() {return _movements[_currentIndex]->thetaChange();}
+  int    duration()    {return _movements[_currentIndex]->duration();}
   std::string name() {return _movements[_currentIndex]->name();}
   void nextMovement(){
     _currentIndex++;
     if(_currentIndex == _movements.size()) _currentIndex = 0;
-    std::cout << "Changing to movement " << _movements[_currentIndex]->name() << std::endl;
+    //std::cout << "Changing to movement " << _movements[_currentIndex]->name() << std::endl;
   }
   void moveStar(Star& s) {
     _movements[_currentIndex]->move(s);

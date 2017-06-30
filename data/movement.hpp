@@ -18,6 +18,7 @@ public:
 
   double thetaChange() {return _thetaChange;}
   double phiChange() {return _phiChange;}
+  int    duration()  {return _duration;}
   std::string name() {return _name;}
   virtual void move(Star& s) {
     s.theta += _thetaChange;

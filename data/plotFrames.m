@@ -1,5 +1,5 @@
-name = 'leftupdowndppspeed256';
-star_frames = 40;
+name = 'variable_speeds_5-30';
+star_frames = 200;
 for i_frame = 1:star_frames
   star_file = ['frames/' name '/frame' num2str(i_frame-1) '.txt'];
   m = dlmread(star_file);

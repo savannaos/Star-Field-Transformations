@@ -1,11 +1,11 @@
+# c++ compiled files (ones with no extension)
+*
+!*.*
+!*/
+
 # open pv stuff
 /home/savanna/Projects/AFRL/OpenPV/
 
 # octave garbage
 */vgcore.*
 */octave-workspace
-
-# c++ compiled files (ones with no extension)
-*
-!*.*
-!*/
