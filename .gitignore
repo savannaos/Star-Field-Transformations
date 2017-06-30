@@ -1,10 +1,8 @@
 # open pv stuff
 /home/savanna/Projects/AFRL/OpenPV/
 
-
-# data that would take up too much space
-data/test_data.txt
-*/vgcore.1*
+# octave garbage
+*/vgcore.*
 */octave-workspace
 
 # c++ compiled files (ones with no extension)
