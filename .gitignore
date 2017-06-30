@@ -1,5 +1,6 @@
 # open pv stuff
-/OpenPV/
+/home/savanna/Projects/AFRL/OpenPV/
+
 
 # data that would take up too much space
 data/test_data.txt
