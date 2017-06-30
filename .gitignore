@@ -1,0 +1,18 @@
+# open pv stuff
+OpenPV.wiki/
+OpenPV/
+
+#data that would take up too much space
+data/octave-workspace
+data/test_data.txt
+data/vgcore.14374
+data/vgcore.16140
+data/visuals/hist_theta.txt
+data/visuals/images/
+octave-workspace
+testNewFolders.cpp
+
+# c++ compiled files (ones with no extension)
+*
+!*.*
+!*/
