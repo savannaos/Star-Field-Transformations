@@ -9,7 +9,7 @@ setenv("GNUTERM","X11")
 nbatch = 1;
 batchwidth = 1;
 
-parent_output_dir = '/nh/compneuro/scratch/starOut/starField_SPM_9X9X16_18X18X32_6_500/train16-23-17';
+parent_output_dir = '/nh/compneuro/scratch/starOut/starField_SPM_9X9X16_5_500/train17-5-17';
 output_dir = parent_output_dir;
 i_batchsweep = 1;
 batchsweep_format_str = "%02d";
@@ -95,7 +95,7 @@ endfor %% frameRecon_step
 
 endfor %% i_frame
 
-num_LCA_layers = 2;
+num_LCA_layers = 1;
 VThresh = ones(1, num_LCA_layers);
 VThresh = .4*VThresh;
 VThresh_bins = cell(1, num_LCA_layers);
@@ -152,7 +152,7 @@ for i_LCA = 1 : num_LCA_layers
       LCA_nnz    += hist(LCA_feature(:), [1:LCA_hdr.nf]);
       LCA_vals   += hist(LCA_coef(:), VThresh_bins{i_LCA}) ./ length(LCA_coef(:));
     endfor %% i_frame
-
+   
 
     plot_LCA_nnz_flag = true
     if plot_LCA_nnz_flag && i_delay == 1
