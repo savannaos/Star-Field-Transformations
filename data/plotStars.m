@@ -1,5 +1,5 @@
 addpath('../OpenPV/mlab/util');
-name = 'variable_speeds_6-30';
+name = 'move_by_alpha7-7';
 star_file = ['starFieldpvp/' name '.pvp'];
 [star_data, star_hdr] = readpvpfile(star_file);
 star_frames = star_hdr.nbands;

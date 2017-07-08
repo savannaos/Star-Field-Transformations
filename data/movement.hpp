@@ -15,6 +15,10 @@ public:
     _thetaChange = tc; _phiChange = pc; _name = name; _rotation = 0;
     _duration = dur;
   }
+  Movement(double tc, double pc, int dur){ // constructor where name not specified
+    _thetaChange = tc; _phiChange = pc; _name = "random"; _rotation = 0;
+    _duration = dur;
+  }
 
   double thetaChange() {return _thetaChange;}
   double phiChange() {return _phiChange;}

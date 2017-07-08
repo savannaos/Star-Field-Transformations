@@ -1,5 +1,5 @@
-name = 'variable_speeds_6-30';
-star_frames = 200;
+name = 'move_by_alpha7-7';
+star_frames = 100;
 for i_frame = 1:star_frames
   star_file = ['frames/' name '/frame' num2str(i_frame-1) '.txt'];
   m = dlmread(star_file);

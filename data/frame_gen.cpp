@@ -106,14 +106,33 @@ void genAllwithVariableSpeeds(int framesPerMvmt, c1& speeds, c2& stars){
     starMove.nextMovement();
   }
 }
+template<typename Container>
+void genVariablebyAlpha(StarMovement& starMove, Container& stars){
+  time_t t = time(0);
+  tm *ltm = localtime(&t);
+  std::string foldname = "frames/move_by_alpha" + std::to_string(ltm->tm_mon+1)
+  + "-" + std::to_string(ltm->tm_mday) + "/";
+  mkdir(foldname.c_str(), ACCESSPERMS);
+  for(int i = 0; i < starMove.numDirections(); i++){
+    std::ofstream outFile;
+    std::string fname = foldname + "/frame" + std::to_string(i) + ".txt";
+    outFile.open(fname.c_str());
+    genFrame(stars, outFile);
+    moveStars(starMove, stars);
+    starMove.nextMovement();
+  }
+}
 
 int main(){
  using namespace std;
  vector<Star> stars;
  initStars(stars);
- vector<int> v = {64, 128, 256};
- int numFrames = 25;
- genAllwithVariableSpeeds(numFrames, v, stars);
+ StarMovement starMove(.01, 0, M_PI/320, M_PI/640, 0);
+ std::cout << "number of frames = " << starMove.numDirections() << std::endl;
+ genVariablebyAlpha(starMove, stars);
+ // vector<int> v = {64, 128, 256};
+ // int numFrames = 25;
+ // genAllwithVariableSpeeds(numFrames, v, stars);
  // int speedFactor = 256;
  // std::string fname = "leftupdowndppspeed";
  // genAllMovement(numFrames, speedFactor, fname, stars);

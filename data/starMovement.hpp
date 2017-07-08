@@ -29,6 +29,40 @@ public:
     _currentIndex = 0;
   }
 
+  /* */
+  double advanceByAlpha(double alpha, double curr, double start, double target){
+    double diff = abs(target - start);
+    if(target==0){
+      if(start>0 && curr>0)      curr -= (diff * alpha); //pos to 0
+      else if(start<0 && curr<0) curr += (diff * alpha); //neg to 0
+    }
+    else {
+      if(start < target && curr <target)       curr += (diff * alpha); //increasing
+      else if(start > target && curr >target) curr -= (diff * alpha); //decreasing
+    }
+    //avoid doubles comparision issues
+    double epsilon = .0001;
+    if((curr > target && curr<target+epsilon) || curr < target && curr > target-epsilon) {
+      curr = target;
+    }
+    return curr;
+  }
+
+  /* stars the move from movement vector start->end by a factor of alpha at a time*/
+  StarMovement(double alpha, double startx, double endx, double starty, double endy){
+      double x = startx, y = starty;
+      bool updating = true;
+      while(updating){
+        double prevx = x, prevy = y;
+//        std::cout << "x: " << x << " y: " << y << std::endl;
+        _movements.push_back(std::make_shared<Movement>(x, y, 1));
+        x = advanceByAlpha(alpha, x, startx, endx);
+        y = advanceByAlpha(alpha, y, starty, endy);
+        if(prevx == x && prevy == y) updating = false;
+      }
+      _currentIndex = 0;
+  }
+
   /* nframesPer: the # of frames each direction gets. Split into the number of speeds.
      Example: nframesPer = 25, speeds = [5, 10, 50]. Each direction gets 25
      frames, 8 at which are speed 5, 8 at speed 10, and 9 at speed 50. */
