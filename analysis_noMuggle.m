@@ -24,9 +24,10 @@ else
 endif
 
 num_LCA_layers = 1;
+nf = 16;
 for i_LCA = 1 : num_LCA_layers    
 %%%%%%%%%%%%% ORACLE %%%%%%%%%%%%%%%
-    ATA_rank_flag = true;
+    ATA_rank_flag = false;
     LCA_delay_str = "0";
     checkpoint_glob = glob([parent_output_dir, filesep, 'Checkpoints', filesep, 'Checkpoint*']);
     for i_checkpoint = length(checkpoint_glob) %%: -2 : 1
@@ -42,7 +43,7 @@ for i_LCA = 1 : num_LCA_layers
 	ATA_weights = ATA_data{1}.values{1};
 	ATA_max_per_tableau = 1024;
 	ATA_num_tableau = ceil(ATA_hdr.nf/ATA_max_per_tableau);
-	ATA_num_per_tableau = min(ATA_max_per_tableau, LCA_hdr.nf);
+        ATA_num_per_tableau = min(ATA_max_per_tableau, nf);
 	ATA_num_cols = ceil(sqrt(ATA_num_per_tableau));
 	ATA_num_rows = ceil(ATA_num_per_tableau / ATA_num_cols);
 	ATA_patch_size = [size(ATA_weights, 2), size(ATA_weights, 1)]; %%size(ATA_patch);
