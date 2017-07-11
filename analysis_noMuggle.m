@@ -23,177 +23,13 @@ else
   batchsweep_str = "";
 endif
 
-%%%%%%%%%%%%%%% MUGGLE RECONSTRUCTION SUBPLOTS 
-for i_frame = 0 : 1 : 31
-for frameRecon_step = 0:nbatch-1
-  if ~exist([output_dir, filesep, 'Frame', "_", num2str(i_frame), batchsweep_str, '.pvp'])
-    break
-  endif
-  if frameRecon_step == 0 
-    [frame_data_pvp, frame_hdr] = readpvpfile([output_dir, filesep, 'Frame', "_", num2str(i_frame), batchsweep_str, '.pvp']);
-  endif
-  if frameRecon_step == 0 && i_frame == 0
-    frameRecon_time = frame_data_pvp{ceil(frame_hdr.nbands)}.time;
-    frameRecon_nbands = frame_hdr.nbands;
-  endif
-  title_str = ['Frame', "_", num2str(i_frame), batchsweep_str, "_",  num2str(frameRecon_time), '_', num2str(frameRecon_step)];
-  fh_frame = figure("name", title_str);
-  subplot(2,2,1)
-  title('Frame');
-  frame_data = permute(frame_data_pvp{ceil(frameRecon_nbands-frameRecon_step)}.values,[2,1,3]);
-  frame_data = floor(255*(frame_data - min(frame_data(:))) / (max(frame_data(:) - min(frame_data(:)))));
-  imagesc(uint8((frame_data)));
-  box off
-  axis off
-  axis image
-  frame_recon_array = uint8(zeros([2*size(frame_data,1),2*size(frame_data,2),1]));
-  frame_recon_array(1:size(frame_data,1),1:size(frame_data,2),:) = uint8(frame_data);
 
-
-  if frameRecon_step == 0 
-    [frameReconS1_data,frameeReconS1_hdr] = readpvpfile([output_dir, filesep, 'Frame', "_", num2str(i_frame), 'ReconS1Muggle', batchsweep_str, '.pvp']);
-  endif
-  subplot(2,2,2)
-  title('S1');
-  frame_data = permute(frameReconS1_data{ceil(frameRecon_nbands-frameRecon_step)}.values,[2,1,3]);
-  frame_data = floor(255*(frame_data - min(frame_data(:))) / (max(frame_data(:) - min(frame_data(:)))));
-  imagesc(uint8((frame_data)));
-  box off
-  axis off
-  axis image
-  frame_recon_array(size(frame_data,1)+1:2*size(frame_data,1),1:size(frame_data,2),:) = uint8(frame_data);
-
-
-  if frameRecon_step == 0 
-    [frameReconS2_data,frameReconS2_hdr] = readpvpfile([output_dir, filesep, 'Frame', "_", num2str(i_frame), 'ReconS2Muggle', batchsweep_str, '.pvp']);
-  endif
-  subplot(2,2,3)
-  title('S2');
-  frame_data = permute(frameReconS2_data{ceil(frameRecon_nbands-frameRecon_step)}.values,[2,1,3]);
-  frame_data = floor(255*(frame_data - min(frame_data(:))) / (max(frame_data(:) - min(frame_data(:)))));
-  imagesc(uint8((frame_data)));
-  box off
-  axis off
-  axis image
-  frame_recon_array(1:size(frame_data,1),size(frame_data,2)+1:2*size(frame_data,2),:) = uint8(frame_data);
-
-  
-  frameReconS1S2 = permute(frameReconS1_data{ceil(frameRecon_nbands-frameRecon_step)}.values,[2,1,3]) + permute(frameReconS2_data{ceil(frameRecon_nbands-frameRecon_step)}.values,[2,1,3]);
-  title_str = ['Frame', "_", num2str(i_frame), 'ReconS1S2', batchsweep_str, '_', num2str(frameRecon_time), '_', num2str(frameRecon_step)];
-  subplot(2,2,4);
-  title('S1S2');
-  frame_data = frameReconS1S2;
-  frame_data = floor(255*(frame_data - min(frame_data(:))) / (max(frame_data(:) - min(frame_data(:)))));
-  imagesc(uint8((frame_data)));
-  box off
-  axis off
-  axis image
-  frame_recon_array(size(frame_data,1)+1:2*size(frame_data,1),size(frame_data,2)+1:2*size(frame_data,2),:) = uint8(frame_data);
-
-imwrite(frame_recon_array, [parent_output_dir, filesep, title_str, '.png'], 'png');
-
-endfor %% frameRecon_step
-endfor %% i_frame
-
-
-%%%%%%%%%%% MUGGLE FEATURE ACTIVATIONS %%%%%%%%%%
 num_LCA_layers = 1;
-VThresh = ones(1, num_LCA_layers);
-VThresh = .4*VThresh;
-VThresh_bins = cell(1, num_LCA_layers);
-for i_LCA = 2:num_LCA_layers
-  VThresh(i_LCA) *= (0.5^(i_LCA-1));
-endfor
-for i_LCA = 1:num_LCA_layers
-  VThresh_bins{i_LCA} = VThresh(i_LCA)*[0:0.25:5];
-endfor
-
 for i_LCA = 1 : num_LCA_layers
-  if batchwidth > 1
-    LCA_glob = glob([output_dir, filesep, 'S', num2str(i_LCA), "Muggle", '_', '[0-9]', '_', '0', '.pvp']);
-    LCA_glob2 = glob([output_dir, filesep, 'S', num2str(i_LCA), "Muggle", '_', '[0-9][0-9]', '_', '0', '.pvp']);
-  else
-    LCA_glob = glob([output_dir, filesep, 'S', num2str(i_LCA), "Muggle", '_', '[0-9]', '.pvp']);
-    LCA_glob2 = glob([output_dir, filesep, 'S', num2str(i_LCA), "Muggle", '_', '[0-9][0-9]', '.pvp']);
-  endif    
-  if length(LCA_glob2) > 0
-    LCA_glob = [LCA_glob; LCA_glob2]
-  endif
-  num_delay = length(LCA_glob);
-  for i_delay = 1 : 1 %%num_delay
-    [LCA_parent, LCA_file, LCA_ext, ~] = fileparts(LCA_glob{i_delay});
-    if batchwidth > 1
-      LCA_delay_str = regexp(LCA_file, ['S', num2str(i_LCA), "Muggle", '_', '(\d+)', '_', '0'], 'tokens');
-    else
-      LCA_delay_str = regexp(LCA_file, ['S', num2str(i_LCA), "Muggle", '_', '(\d+)'], 'tokens');
-    endif
-    LCA_delay_str = LCA_delay_str{1}{1};;
-    for i_batchsweep = 1 : batchwidth
-      if i_batchsweep > 1
-	LCA_file_start  = regexp(LCA_file, '_\d+', 'start');
-	LCA_file_tmp    = [LCA_file(1:LCA_file_start(end)), num2str(i_batchsweep-1)];
-	output_dir_save = output_dir;
-	output_dir = [parent_output_dir, filesep, 'batchsweep_', num2str(i_batchsweep-1,batchsweep_format_str)];
-	[LCA_data_tmp, LCA_hdr_tmp] = readpvpfile([output_dir, filesep, LCA_file_tmp, LCA_ext]);
-	output_dir = output_dir_save;
-	LCA_data = [LCA_data; LCA_data_tmp];
-      else
-	[LCA_data, LCA_hdr] = readpvpfile(LCA_glob{i_delay});
-      endif
-    endfor %% i_batchsweep
-    LCA_num_frames = length(LCA_data);
-    LCA_nnz  = zeros(1,LCA_hdr.nf);
-    LCA_vals = zeros(1,length(VThresh_bins{i_LCA}));
-    for i_frame   = 1 : LCA_num_frames
-      if isempty(LCA_data{i_frame}.values)
-	continue
-      endif
-      LCA_ndx     = LCA_data{i_frame}.values(:,1);
-      LCA_coef    = LCA_data{i_frame}.values(:,2);
-      [LCA_feature, LCA_col, LCA_row] = ind2sub([LCA_hdr.nf, LCA_hdr.nx, LCA_hdr.ny], LCA_ndx+1);
-      LCA_nnz    += hist(LCA_feature(:), [1:LCA_hdr.nf]);
-      LCA_vals   += hist(LCA_coef(:), VThresh_bins{i_LCA}) ./ length(LCA_coef(:));
-    endfor %% i_frame
-   
-
-    plot_LCA_nnz_flag = true
-    if plot_LCA_nnz_flag && i_delay == 1
-      LCA_nnz_normalized = LCA_nnz / (LCA_hdr.nx * LCA_hdr.ny * (LCA_num_frames));
-      [LCA_nnz_sorted, LCA_rank_ndx] = sort(LCA_nnz_normalized, "descend");
-      title_str = ['S', num2str(i_LCA), '_', LCA_delay_str, '_', 'nnz', '_', num2str(frameRecon_time)];
-      fh_nnz = figure("name", title_str);
-      subplot(2,1,1)
-      LCA_nnz_hndl = bar(LCA_nnz_sorted);
-      LCA_nnz_xtick = 0:ceil(LCA_hdr.nf/8):LCA_hdr.nf;
-      set(gca, 'xtickmode', 'manual');
-      set(gca, 'xtick', LCA_nnz_xtick);
-      set(gca, 'xminortick', 'off');
-      LCA_nnz_xticklabel = cell(1,length(LCA_nnz_xtick));
-      for i_xtick = 1:length(LCA_nnz_xtick);
-	LCA_nnz_xticklabel{i_xtick} = num2str(LCA_nnz_xtick(i_xtick));
-      endfor
-      set(gca, 'xticklabelmode', 'manual');
-      set(gca, 'xticklabel', LCA_nnz_xticklabel);
-
-      LCA_vals_normalized = LCA_vals / (LCA_num_frames);
-      subplot(2,1,2)
-      LCA_vals_hndl = bar(LCA_vals_normalized);
-      LCA_vals_xticklabel = cell(1,length(VThresh_bins{i_LCA}));
-      for i_val = 1 : length(VThresh_bins{i_LCA})
-	LCA_vals_xticklabel{i_val} = "";
-      endfor
-      for i_val = 1 : 4 : length(VThresh_bins{i_LCA})
-	LCA_vals_xticklabel{i_val} = num2str(VThresh_bins{i_LCA}(i_val)/VThresh(i_LCA),"%4.2f");
-      endfor
-      set(gca, 'xticklabel', LCA_vals_xticklabel);
-      saveas(fh_nnz, [parent_output_dir, filesep, title_str, '.png'], 'png');
-
-      disp(["nnz(", num2str(i_LCA), ") = ", num2str(mean(LCA_nnz_normalized))]);
-      disp(["max(", num2str(i_LCA), ") = ", num2str(max(LCA_vals_normalized))]);
-    endif %% plot_LCA_nnz_flag
     
 %%%%%%%%%%%%% ORACLE %%%%%%%%%%%%%%%
-    ATA_rank_flag = true 
+    ATA_rank_flag = true;
+    LCA_delay_str = "0";
     checkpoint_glob = glob([parent_output_dir, filesep, 'Checkpoints', filesep, 'Checkpoint*']);
     for i_checkpoint = length(checkpoint_glob) %%: -2 : 1
       checkpoint_dir = checkpoint_glob{i_checkpoint};
@@ -238,7 +74,6 @@ for i_LCA = 1 : num_LCA_layers
 	endfor %% i_tableau
       endfor %% i_ATA_delay
     endfor %% i_checkpoint
-  endfor  %% i_delay
 endfor  %% i_LCA
 
 %%%%%%%%% ENERGY %%%%%%%%%%%%%%
