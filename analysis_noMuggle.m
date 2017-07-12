@@ -69,6 +69,7 @@ for i_LCA = 1 : num_LCA_layers
 		      (ATA_col-1)*ATA_patch_size(2)+1:ATA_col*ATA_patch_size(2)) = ATA_uint8;
 	  endfor %% i_rank
 	  imagesc(uint8(permute(ATA_array,[2,1,3]))); box off; axis off; axis image; 
+colormap(gray);
 	  saveas(fh_ATA, [parent_output_dir, filesep, title_str, '.png'], 'png');
 	endfor %% i_tableau
       endfor %% i_ATA_delay
