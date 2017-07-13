@@ -68,8 +68,13 @@ for i_LCA = 1 : num_LCA_layers
 	    ATA_array((ATA_row-1)*ATA_patch_size(1)+1:ATA_row*ATA_patch_size(1), ...
 		      (ATA_col-1)*ATA_patch_size(2)+1:ATA_col*ATA_patch_size(2)) = ATA_uint8;
 	  endfor %% i_rank
-	  imagesc(uint8(permute(ATA_array,[2,1,3]))); colormap(fh_ATA,'gray'); box off; axis off; axis image;
-	  saveas(fh_ATA, [parent_output_dir, filesep, title_str, '.png'], 'png');
+	  imagesc(uint8(permute(ATA_array,[2,1,3]))); box off; axis off; axis image;
+saveto = [parent_output_dir, filesep, title_str, '.png'];
+	  saveas(fh_ATA, saveto, 'png');
+          %%cannot do colormap(gray) on axis since its an image, not a plot
+	  imshow(rgb2gray(imread(saveto)))
+	  saveas(gca,saveto,'png')
+
 	endfor %% i_tableau
       endfor %% i_ATA_delay
     endfor %% i_checkpoint
