@@ -127,7 +127,7 @@ int main(){
  using namespace std;
  vector<Star> stars;
  initStars(stars);
- StarMovement starMove(.01, 0, M_PI/320, M_PI/640, 0);
+ StarMovement starMove(.004, 0, M_PI/320, M_PI/640, 0);
  std::cout << "number of frames = " << starMove.numDirections() << std::endl;
  genVariablebyAlpha(starMove, stars);
  // vector<int> v = {64, 128, 256};
