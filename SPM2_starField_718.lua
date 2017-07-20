@@ -125,7 +125,7 @@ for i_tier = 1, tiers do
    VWidth[i_tier]           = 0;
 end
 local timeConstantTau       = {};
-local baseTau               = math.floor(1000/4);
+local baseTau               = math.floor(2000/4);
 timeConstantTau[1]          = baseTau;
 for i_tier = 2, tiers do
    timeConstantTau[i_tier] = baseTau * (1 + 0*(i_tier-1)/(tiers-1)); -- baseTau * (1 + 15*(i_tier-1)/(tiers-1));
