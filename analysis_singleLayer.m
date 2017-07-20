@@ -47,7 +47,7 @@ for frameRecon_step = 0:nbatch-1
   box off
   axis off
   axis image
-  frame_recon_array = uint8(zeros([2*size(frame_data,1),2*size(frame_data,2),1]));
+  frame_recon_array = uint8(zeros([size(frame_data,1),size(frame_data,2),1]));
   frame_recon_array(1:size(frame_data,1),1:size(frame_data,2),:) = uint8(frame_data);
 
 
@@ -224,6 +224,6 @@ for i_batch = 1:nbatch
   plot(energy(100:100:end), "color", cmap(i_batch,:));
   hold on;
 endfor
-saveas(fh_energy, [writeTo, filesep, title_str, '.png'], 'png');
+saveas(fh_energy, [write_to, filesep, title_str, '.png'], 'png');
 
 
