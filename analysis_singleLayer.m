@@ -224,6 +224,6 @@ for i_batch = 1:nbatch
   plot(energy(100:100:end), "color", cmap(i_batch,:));
   hold on;
 endfor
-saveas(fh_energy, [parent_output_dir, filesep, title_str, '.png'], 'png');
+saveas(fh_energy, [writeTo, filesep, title_str, '.png'], 'png');
 
 
