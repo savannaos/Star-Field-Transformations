@@ -33,7 +33,7 @@ STAROUT (output files)
 1. organized into folders by date. 
 2. includes visuals
 3. actual pvp files are in /nh/compneuro/scratch/starOut/ (due to size of files)
-4. each folder has its lua file to see it's run details.
+4. each folder has its lua file to see its run details.
 ---------------
 ANALYSIS
 1. analysis_SPM.m - original analysis script
