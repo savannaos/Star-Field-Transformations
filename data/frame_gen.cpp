@@ -12,7 +12,7 @@
 /*  Savanna Smith, 5/25/17
     Generates sequential frames for star data */
 
-/* read each line of input file and generates star object*/
+/* read each line of input file and generate star object*/
 template<typename Container>
 void initStars(Container& stars){
   std::ifstream input("star_data.txt");
@@ -20,7 +20,7 @@ void initStars(Container& stars){
   if(input.is_open()){
     while(input>>theta>>phi>>mag){ //for all input
       Star s; s.theta = theta; s.phi = phi; s.mag = mag; //initialize star
-      stars.push_back(s); //put into stars dicitonary
+      stars.push_back(s); //put into stars Container
     }
     input.close();
   }
@@ -84,7 +84,7 @@ void genAllMovement(int numFrames, int factor,std::string& name, Container& star
     moveStars(starMove,stars);
   }
 }
-
+//Cycles through all movements in StarMovement (which includes specified speeds) to create frames.
 template<typename c1, typename c2>
 void genAllwithVariableSpeeds(int framesPerMvmt, c1& speeds, c2& stars){
   StarMovement starMove(framesPerMvmt, speeds);
@@ -106,6 +106,7 @@ void genAllwithVariableSpeeds(int framesPerMvmt, c1& speeds, c2& stars){
     starMove.nextMovement();
   }
 }
+/* Cycles through all the continuous movements in StarMove and generates the frames*/
 template<typename Container>
 void genVariablebyAlpha(StarMovement& starMove, Container& stars){
   time_t t = time(0);

@@ -1,6 +1,6 @@
 function pv_frames(name)
   % Savanna Smith, 5/30/17
-  % create cell array of the data in correct format
+  % create cell array of the frames data in the correct format
   % in order to call writepvpsparsevaluesfile.m
   addpath("../OpenPV/mlab/util");        %where pvp function is located
   dTheta = pi/10;
@@ -43,7 +43,7 @@ function pv_frames(name)
     end%for
   end%for
 
-  % DETERMINE PARAMETERS AND EXECUTE
+  % SET PARAMETERS AND EXECUTE
   % disp(data);
   nx = pixPerSide;
   ny = pixPerSide;

@@ -2,7 +2,7 @@
 #define __starCoordBounds_H
 #include <math.h>
 /* Savanna Smith, 6/5/17
-   Holds star's coordinates statistics */
+   Holds the view's dimension. The view tells us which stars to look at. */
 class StarCoordBounds {
   double thetaLow;
   double thetaHigh;
@@ -25,7 +25,7 @@ public:
   }
   StarCoordBounds(double tl, double th, double pl, double ph,
                   double dt, double dp) : thetaLow(tl), thetaHigh(th),
-                  phiLow(pl), phiHigh(ph), dTheta(dt), dPhi(dp) {}
+                  phiLow(pl), phiHigh(ph), dTheta(dt), dPhi(dp) {} //use own parameters
   ~StarCoordBounds(){}
   double minTheta() {return thetaLow;}
   double maxTheta() {return thetaHigh;}
