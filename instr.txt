@@ -22,16 +22,18 @@ GENERATE DATA
 2. plotFrames.m - to plot stars using the frames files rather than the pvp file. 
 ---------------
 RUN TESTS
-1. Install PetaVision
-2. Build PetaVision
-3. Lua file
-4. params file
-5. execute mpirun
+1. Install PetaVision - https://github.com/PetaVision/OpenPV/wiki/Ubuntu-Installation
+2. Change to the developer branch 
+3. Build PetaVision - https://github.com/PetaVision/OpenPV/wiki/Building-and-Executing-PetaVision
+4. Generate parameters from Lua file - lua yourfile.lua > yourfile.params (see sample.lua for template)
+5. Follow https://github.com/PetaVision/OpenPV/wiki/LCA-CIFAR-Tutorial for detailed instructions
+6. Execute. example: mpirun -np 8 --bind-to none ~/build/tests/BasicSystemTest/Release/BasicSystemTest -t 3 -rows 1 -cols 1 -batchwidth 8 -p ./SPM2_starField_623.params -l ./SPM2_starField_623.log
 ---------------
 STAROUT (output files)
 1. organized into folders by date. 
 2. includes visuals
 3. actual pvp files are in /nh/compneuro/scratch/starOut/ (due to size of files)
+4. each folder has its lua file to see it's run details.
 ---------------
 ANALYSIS
 1. analysis_SPM.m - original analysis script
