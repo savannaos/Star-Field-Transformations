@@ -1,21 +1,25 @@
 #include <string>
 class Movement {
+  /* move Star s by _phiChange and _thetaChange */
 protected:
   double      _thetaChange;
   double      _phiChange;
   double      _rotation;
-  int         _duration;
+  int         _duration; //total number of frames we want to move star in this direction (only used for lookup)
   std::string _name;
 public:
   Movement(double tc, double pc, std::string name) {
+    /*initialize only directions and name*/
     _thetaChange = tc; _phiChange = pc; _name = name; _rotation = 0;
     _duration = 1;
   }
   Movement(double tc, double pc, std::string name, int dur){
+    /*initialize directions, name, and the number of frames to move in this direction*/
     _thetaChange = tc; _phiChange = pc; _name = name; _rotation = 0;
     _duration = dur;
   }
-  Movement(double tc, double pc, int dur){ // constructor where name not specified
+  Movement(double tc, double pc, int dur){
+    /* constructor where name not specified */
     _thetaChange = tc; _phiChange = pc; _name = "random"; _rotation = 0;
     _duration = dur;
   }
@@ -43,6 +47,7 @@ public:
 };
 
 class CirMovement : public Movement, public StarCoordBounds {
+  /* moves Star s in a circular motion */
 public:
   CirMovement(double tc, double pc, double rot, std::string& name) : Movement(tc, pc, name) {
     _rotation = rot;
@@ -59,8 +64,8 @@ public:
     //  << " xdiff: " << xdiff << " ydiff: " << ydiff << " computedx: " << x << " computedy: " << y << std::endl;
     if(x > ( 2 * M_PI)){ x -= ( 2 * M_PI);}
     if(y > ( 2 * M_PI)){ y -= ( 2 * M_PI);}
-    if(x < 0){           x += 2* M_PI;}
-    if(y < 0){           y += 2* M_PI;}
+    if(x < 0)          { x += 2* M_PI;}
+    if(y < 0)          { y += 2* M_PI;}
     s.theta = x;
     s.phi = y;
 //    std::cout << "x: " << x << " y: " << y << std::endl;

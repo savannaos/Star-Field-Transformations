@@ -7,6 +7,7 @@
    Generate 9,096 random theta and phi locations
    to represent visible stars. Also generate random
    magnitudes for the stars that follow a normal distribution.
+   outputs to star_data.txt
    */
 using namespace std;
 

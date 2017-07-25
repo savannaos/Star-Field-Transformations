@@ -24,18 +24,18 @@ function star_visuals(data)
       v = data{frame,1}.values(n,1);
       [y, x] = ind2sub([pixPerSide,pixPerSide], v);
     % fprintf("x:%d, y:%d\n", x,y);
-      if x <= imagePix && y <= imagePix
+    %  if x <= imagePix && y <= imagePix
         im(x,y)   = data{frame}.values(n,2);
-        im(x+1,y) = data{frame}.values(n,2);
-        im(x,y+1) = data{frame}.values(n,2);
-        if(x>1)
-          im(x-1,y) = data{frame}.values(n,2);
-        end%if
-        if(y>1)
-          im(x, y-1) = data{frame}.values(n,2);
-        end%if
-      else  oor =oor + 1;
-      end%if
+    %    im(x+1,y) = data{frame}.values(n,2);
+    %    im(x,y+1) = data{frame}.values(n,2);
+    %    if(x>1)
+    %      im(x-1,y) = data{frame}.values(n,2);
+    %    end%if
+    %    if(y>1)
+    %      im(x, y-1) = data{frame}.values(n,2);
+    %    end%if
+    %  else  oor =oor + 1;
+    %  end%if
     end%for
 
     fName = ['frame' num2str(frame-1) '.png'];

@@ -8,11 +8,14 @@
 #include <math.h>
 #include <memory>
 class StarMovement {
+  /* Generates the sequences of movements to move the stars by.
+     May move the Star s by the current movement by calling moveStar(s). */
+
   std::vector<std::shared_ptr<Movement>> _movements; //for polymorphism
-  //std::vector<Movement> _movements;
   int                   _currentIndex;
 public:
   StarMovement(double factor){
+  /* Interested in distinct movements*/
       double tspeed = (M_PI/5) / factor;
       double pspeed = (M_PI/10) /factor;
     _movements.push_back(std::make_shared<Movement>(0,-1* pspeed,"left"));
@@ -29,8 +32,8 @@ public:
     _currentIndex = 0;
   }
 
-  /* */
   double advanceByAlpha(double alpha, double curr, double start, double target){
+    /* move from curr to target by alpha percent*/
     double diff = abs(target - start);
     if(target==0){
       if(start>0 && curr>0)      curr -= (diff * alpha); //pos to 0
@@ -48,8 +51,9 @@ public:
     return curr;
   }
 
-  /* stars the move from movement vector start->end by a factor of alpha at a time*/
   StarMovement(double alpha, double startx, double endx, double starty, double endy){
+      /* interested in continuous movements:
+      stars the move from movement vector start->end by a factor of alpha at a time*/
       double x = startx, y = starty;
       bool updating = true;
       while(updating){
@@ -63,10 +67,10 @@ public:
       _currentIndex = 0;
   }
 
-  /* nframesPer: the # of frames each direction gets. Split into the number of speeds.
-     Example: nframesPer = 25, speeds = [5, 10, 50]. Each direction gets 25
-     frames, 8 at which are speed 5, 8 at speed 10, and 9 at speed 50. */
   StarMovement(int nframesPer, std::vector<int>& speeds){
+    /* interested in starting with the number of frames per direction and speeds.
+    Example: nframesPer = 25, speeds = [5, 10, 50]. Then, each direction gets 25
+       frames, 8 at which are speed 5, 8 at speed 10, and 9 at speed 50. */
     int n = speeds.size();
     if(n > nframesPer){
       std::cout << "Error: Cannot have more speeds than the number of frames. "
@@ -99,6 +103,7 @@ public:
   }
 
   void selectMovement(){
+    /* prompts user to select the movement */
     int direction;
     std::cout << "How would you like to shift the stars?" << std::endl
          <<  "left:1\nright:2 \nup:3 \ndown:4 \ndiagonal++:5 \ndiagonal--:6 \ndiagonal+-:7 \ndiagonal-+:8 \ncircular:9" << std::endl;
@@ -114,12 +119,11 @@ public:
   double thetaChange() {return _movements[_currentIndex]->thetaChange();}
   int    duration()    {return _movements[_currentIndex]->duration();}
   std::string name() {return _movements[_currentIndex]->name();}
-  void nextMovement(){
+  void nextMovement(){ /* increments index of movement vector we're on */
     _currentIndex++;
     if(_currentIndex == _movements.size()) _currentIndex = 0;
-    //std::cout << "Changing to movement " << _movements[_currentIndex]->name() << std::endl;
   }
-  void moveStar(Star& s) {
+  void moveStar(Star& s) { /* move star by current Movement*/
     _movements[_currentIndex]->move(s);
   }
   int numDirections(){return _movements.size();}
