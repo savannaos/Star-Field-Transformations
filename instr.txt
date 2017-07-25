@@ -1,14 +1,47 @@
-1. Generate stars - star_gen.cpp. This will generate 9028 (number of visible
-   stars from Earth) random theta and phi coordinates that range from 0 to  2 pi
-   and random magnitudes that follow a normal distribution (8.5,2). These star
-   values are saved in star_data.txt.
-2. Generate frames - frame_gen.cpp. This reads in star_data.txt to save a Container
-   of stars. For each frame in the desired sequence, it will
-      -write the star values of the stars that are located within the view (see starCoordBounds.hpp for these dimensions).
+---------------
+GENERATE DATA
+-stars-
+1. star.hpp - header for star data structure
+2. star_gen.cpp - generates Star coordinations and outputs into star_data.txt
+
+-frames-
+1. movement.hpp - class to move Star s by specified x and y directions or by a circular motion. 
+2. starMovement.hpp - generates the sequence of Movements to move the stars by. Various constructors to choose from depending on the type of movements interested in.
+3. starCoordBounds.hpp - dimensions for view (for checking whether a star's coordinations are within our view)
+4. frame_gen.hpp - reads in star_data.txt and saves the stars. For each frame in the desired sequence, it will
+      -write the star values of the stars that are located within the view specified by starMovement.hpp.
       -shift all the stars as specified in starMovement.hpp.
-3. Generate pvp file - pv_frames.m. Reads and saves the frame files into a cell array
-    that follows the format needed in writepvpsparsevaluesfile.m. Converts theta and
-    phi values to x and y coords in an image that has dimension pixPerSide x pixPerSide.
-4. Plot data to ensure accuracy- plotStars.m. Reads in pvp file and extracts coordinates
-    to plot for each frame. Should see expected movement.
-5. Run Petavision
+      -outputs frame0.txt -> frame<n>.txt (n being the total number of frames) 
+      
+-pvpfiles-         
+1. pv_frames.m - Reads the frame files into a cell array that follows the format needed in writepvpsparsevaluesfile.m. Converts theta and phi values to x and y coords in an image. Outputs a pvpfile. 
+2. saves the matfile to use if desired
+
+-visualize-
+1. plotStars.m - Reads in pvp file and extracts coordinates to plot for each frame. Should see expected movement.
+2. plotFrames.m - to plot stars using the frames files rather than the pvp file. 
+---------------
+RUN TESTS
+1. Install PetaVision - https://github.com/PetaVision/OpenPV/wiki/Ubuntu-Installation
+2. Change to the developer branch 
+3. Build PetaVision - https://github.com/PetaVision/OpenPV/wiki/Building-and-Executing-PetaVision
+4. Generate parameters from Lua file - lua yourfile.lua > yourfile.params (see sample.lua for template)
+5. Follow https://github.com/PetaVision/OpenPV/wiki/LCA-CIFAR-Tutorial for detailed instructions
+6. Execute. example: mpirun -np 8 --bind-to none ~/build/tests/BasicSystemTest/Release/BasicSystemTest -t 3 -rows 1 -cols 1 -batchwidth 8 -p ./SPM2_starField_623.params -l ./SPM2_starField_623.log
+---------------
+STAROUT (output files)
+1. organized into folders by date. 
+2. includes visuals
+3. actual pvp files are in /nh/compneuro/scratch/starOut/ (due to size of files)
+4. each folder has its lua file to see its run details.
+---------------
+ANALYSIS
+1. analysis_SPM.m - original analysis script
+2. analysis_energy.m - plots the energy per batch
+3. analysis_singleLayer.m - only uses one layer in network: plots the energy, reconstructions, features, feature activations, and the muggle's prediction. 
+4. analysis_recon - plots only the reconstructions
+---------------
+DOCUMENTS
+1. abstract, poster, and slides
+2. references
+
