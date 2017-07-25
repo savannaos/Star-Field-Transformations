@@ -1,23 +1,26 @@
-DATA
-stars:
+---------------
+GENERATE DATA
+-stars-
 1. star.hpp - header for star data structure
-2. star_gen.cpp - generates star coordinations and outputs into star_data.txt
+2. star_gen.cpp - generates Star coordinations and outputs into star_data.txt
 
-frames:
-1. movement.hpp 
-2. starMovement.hpp - specifies how all the stars will move
-3. starCoordBounds.hpp - dimensions for view
+-frames-
+1. movement.hpp - class to move Star s by specified x and y directions or by a circular motion. 
+2. starMovement.hpp - generates the sequence of Movements to move the stars by. Various constructors to choose from depending on the type of movements interested in.
+3. starCoordBounds.hpp - dimensions for view (for checking whether a star's coordinations are within our view)
 4. frame_gen.hpp - reads in star_data.txt and saves the stars. For each frame in the desired sequence, it will
       -write the star values of the stars that are located within the view specified by starMovement.hpp.
       -shift all the stars as specified in starMovement.hpp.
+      -outputs frame0.txt -> frame<n>.txt (n being the total number of frames) 
       
-pvpfiles:           
-1. pv_frames.m - Reads and saves the frame files into a cell array that follows the format needed in writepvpsparsevaluesfile.m. Converts theta and phi values to x and y coords in an image. 
+-pvpfiles-         
+1. pv_frames.m - Reads the frame files into a cell array that follows the format needed in writepvpsparsevaluesfile.m. Converts theta and phi values to x and y coords in an image. Outputs a pvpfile. 
+2. saves the matfile to use if desired
 
-visualize:
+-visualize-
 1. plotStars.m - Reads in pvp file and extracts coordinates to plot for each frame. Should see expected movement.
-2. plotFrames.m - to plot stars before generating the pvp file. 
---------------
+2. plotFrames.m - to plot stars using the frames files rather than the pvp file. 
+---------------
 RUN TESTS
 1. Install PetaVision
 2. Build PetaVision
