@@ -6,7 +6,7 @@ star_frames = star_hdr.nbands;
 star_nx = star_hdr.nx;
 star_ny = star_hdr.ny;
 disp(star_frames);
-for i_frame = 277:star_frames
+for i_frame = 317:star_frames
   fh = figure('name', num2str(i_frame));
   star_ndx = round(star_data{i_frame}.values(:,1));
   [star_col, star_row] = ind2sub([star_ny, star_nx], star_ndx);
