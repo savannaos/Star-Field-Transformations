@@ -2,7 +2,7 @@ close all
 clear all
 more off
 
-addpath("../OpenPV/mlab/util")
+addpath("../../OpenPV/mlab/util")
 graphics_toolkit("gnuplot")
 setenv("GNUTERM","X11")
 
@@ -10,7 +10,8 @@ nbatch = 8;
 batchwidth = 1;
 steps = 100; 
 
-out_folder = '~/Star-Field-Transformations/starOut/7-24-17';
+out_folder = '~/Star-Field-Transformations/starOut/7-28-17';
+mkdir(out_folder);
 parent_output_dir = '/nh/compneuro/scratch/starOut/starField_SPM_9X9X16_5_500/train17-24-17';
 output_dir = parent_output_dir;
 

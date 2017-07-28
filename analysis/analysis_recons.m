@@ -1,8 +1,8 @@
 addpath ('../OpenPV/mlab/util/')
 lastFrame = 4; 
 for frame_index = 0:lastFrame 
-  star_file = strcat('/nh/compneuro/scratch/starOut/starField_SPM_9X9X16_5_500/train17-18-17/Frame_',int2str(frame_index),'.pvp'); 
-  out_file = strcat('/nh/compneuro/scratch/starOut/starField_SPM_9X9X16_5_500/train17-18-17/Frame_',int2str(frame_index), 'ReconS1Oracle.pvp');
+  star_file = strcat('/nh/compneuro/scratch/starOut/starField_SPM_9X9X16_5_500/train17-24-17/Frame_',int2str(frame_index),'.pvp'); 
+  out_file = strcat('/nh/compneuro/scratch/starOut/starField_SPM_9X9X16_5_500/train17-24-17/Frame_',int2str(frame_index), 'ReconS1Oracle.pvp');
 
   disp("reading in files");
   [inputData, inputHdr] = readpvpfile(star_file);
