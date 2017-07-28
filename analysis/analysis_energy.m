@@ -12,7 +12,7 @@ steps = 100;
 
 out_folder = '~/Star-Field-Transformations/starOut/7-28-17';
 mkdir(out_folder);
-parent_output_dir = '/nh/compneuro/scratch/starOut/starField_SPM_9X9X16_5_500/train17-24-17';
+parent_output_dir = '/nh/compneuro/scratch/starOut/starField_SPM_9X9X16_5_500/train17-28-17';
 output_dir = parent_output_dir;
 
 title_str = ['energy'];
