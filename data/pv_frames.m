@@ -48,7 +48,6 @@ function pv_frames(name)
   nx = pixPerSide;
   ny = pixPerSide;
   nf = 1; %since black and white image
-  name = "variable_speeds_7-18"
   pvpName = ['starFieldpvp/' name '.pvp'];
   matName = ['matfiles/' name '.mat'];
   save(matName,'data');
