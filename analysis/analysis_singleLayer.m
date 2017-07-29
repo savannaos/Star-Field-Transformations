@@ -1,7 +1,7 @@
 close all
 clear all
 more off
-
+%written by Garr, modified by Savanna: 2017
 addpath("../OpenPV/mlab/util")
 graphics_toolkit("gnuplot")
 setenv("GNUTERM","X11")
@@ -9,9 +9,10 @@ setenv("GNUTERM","X11")
 nbatch = 8;
 batchwidth = 1;
 
-parent_output_dir = '/nh/compneuro/scratch/starOut/starField_SPM_9X9X16_5_500/train17-18-17';
+parent_output_dir = '/nh/compneuro/scratch/starOut/starField_SPM_9X9X16_5_500/train17-28-17';
 output_dir = parent_output_dir;
-write_to = '~/Star-Field-Transformations/starOut/7-18-17';
+write_to = '~/Star-Field-Transformations/starOut/7-28-17/timestep8000';
+mkdir(write_to);
 i_batchsweep = 1;
 batchsweep_format_str = "%02d";
 if batchwidth > 1
