@@ -11,7 +11,7 @@ batchwidth = 1;
 
 parent_output_dir = '/nh/compneuro/scratch/starOut/starField_SPM_9X9X16_5_500/train17-28-17';
 output_dir = parent_output_dir;
-write_to = '~/Star-Field-Transformations/starOut/7-28-17/timestep8000';
+write_to = '~/Star-Field-Transformations/starOut/7-28-17/timestep50000';
 mkdir(write_to);
 i_batchsweep = 1;
 batchsweep_format_str = "%02d";
@@ -38,6 +38,7 @@ for frameRecon_step = 0:nbatch-1
     frameRecon_time = frame_data_pvp{ceil(frame_hdr.nbands)}.time;
     frameRecon_nbands = frame_hdr.nbands;
   endif
+    disp(frameRecon_nbands); disp(" "); disp(frameRecon_step);
   title_str = ['Frame', "_", num2str(i_frame), batchsweep_str, "_",  num2str(frameRecon_time), '_', num2str(frameRecon_step)];
   fh_frame = figure("name", title_str);
   subplot(2,1,1)
