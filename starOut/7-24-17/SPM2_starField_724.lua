@@ -171,7 +171,7 @@ if initPath then
    --pvParams.column.defaultInitializeFromCheckpointFlag = false; --true;
 end
 
-local adaptiveTimeScalesFlag = true;
+local adaptiveTimeScalesFlag = false;
 if adaptiveTimeScales then
    pv.addGroup(pvParams,
 	       "AdaptiveTimeScales",
