@@ -109,7 +109,6 @@ void genAllwithVariableSpeeds(int framesPerMvmt, c1& speeds, c2& stars){
 /* Cycles through all the continuous movements in StarMove and generates the frames*/
 template<typename Container>
 void genVariablebyAlpha(StarMovement& starMove, Container& stars){
-  int outandback = 0;
   time_t t = time(0);
   tm *ltm = localtime(&t);
   std::string foldname = "frames/move_by_alpha" + std::to_string(ltm->tm_mon+1)
@@ -123,26 +122,13 @@ void genVariablebyAlpha(StarMovement& starMove, Container& stars){
     moveStars(starMove, stars);
     starMove.nextMovement();
   }
-  if(outandback){
-    int leftoff = starMove.numDirections();
-    StarMovement starMove2(.006, M_PI/320, 0, 0, M_PI/640);
-    std::cout << starMove.numDirections() + starMove2.numDirections() << " total frames." << std::endl;
-    for(int i = 0; i < starMove2.numDirections(); i++){
-      std::ofstream outFile;
-      std::string fname = foldname + "/frame" + std::to_string(i+leftoff) + ".txt";
-      outFile.open(fname.c_str());
-      genFrame(stars, outFile);
-      moveStars(starMove2, stars);
-      starMove2.nextMovement();
-    }
-  }
 }
 
 int main(){
  using namespace std;
  vector<Star> stars;
  initStars(stars);
- StarMovement starMove(.005, 0, M_PI/320, M_PI/640, 0);
+ StarMovement starMove(.004, 0, M_PI/1800, M_PI/1800, 0);
  std::cout << "number of frames = " << starMove.numDirections() << std::endl;
  genVariablebyAlpha(starMove, stars);
  // vector<int> v = {64, 128, 256};
