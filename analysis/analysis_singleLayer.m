@@ -81,7 +81,7 @@ for i_LCA = 2:num_LCA_layers
   VThresh(i_LCA) *= (0.5^(i_LCA-1));
 endfor
 for i_LCA = 1:num_LCA_layers
-  VThresh_bins{i_LCA} = VThresh(i_LCA)*[0:0.25:5];
+  VThresh_bins{i_LCA} = VThresh(i_LCA)*[0:0.25:5]; % why is this only to 5?
 endfor
 
 for i_LCA = 1 : num_LCA_layers
