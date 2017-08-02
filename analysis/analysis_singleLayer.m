@@ -9,9 +9,9 @@ setenv("GNUTERM","X11")
 nbatch = 8;
 batchwidth = 1;
 
-parent_output_dir = '/nh/compneuro/scratch/starOut/starField_SPM_9X9X16_5_500/train18-01-17';
+parent_output_dir = '/nh/compneuro/scratch/starOut/starField_SPM_9X9X16_5_500/train18-01-17_2';
 output_dir = parent_output_dir;
-write_to = '~/Star-Field-Transformations/starOut/8-01-17/';
+write_to = '~/Star-Field-Transformations/starOut/8-01-17_2/';
 mkdir(write_to);
 i_batchsweep = 1;
 batchsweep_format_str = "%02d";
@@ -27,7 +27,7 @@ endif
 
 %%%%%%%%%%%%%%% MUGGLE RECONSTRUCTION SUBPLOTS 
 for i_frame = 0 : 1 : 31
-for frameRecon_step = 0:nbatch-1
+for frameRecon_step = 0:0
   if ~exist([output_dir, filesep, 'Frame', "_", num2str(i_frame), batchsweep_str, '.pvp'])
     break
   endif
@@ -75,7 +75,7 @@ endfor %% i_frame
 %%%%%%%%%%% MUGGLE FEATURE ACTIVATIONS %%%%%%%%%%
 num_LCA_layers = 1;
 VThresh = ones(1, num_LCA_layers);
-VThresh = .4*VThresh;
+VThresh = .05*VThresh;
 VThresh_bins = cell(1, num_LCA_layers);
 for i_LCA = 2:num_LCA_layers
   VThresh(i_LCA) *= (0.5^(i_LCA-1));
@@ -169,11 +169,11 @@ for i_LCA = 1 : num_LCA_layers
     endif %% plot_LCA_nnz_flag
     
 %%%%%%%%%%%%% ORACLE %%%%%%%%%%%%%%%
-    ATA_rank_flag = true 
+    ATA_rank_flag = false; 
     checkpoint_glob = glob([parent_output_dir, filesep, 'Checkpoints', filesep, 'Checkpoint*']);
     for i_checkpoint = length(checkpoint_glob) %%: -2 : 1
       checkpoint_dir = checkpoint_glob{i_checkpoint};
-      if i_LCA < 1 
+      if i_LCA >= 1 
 	ATA_glob = glob([checkpoint_dir, filesep, 'S', num2str(i_LCA), "Oracle", '_', LCA_delay_str, 'ToFrame_', '*', 'ReconError', "Oracle", '_W.pvp']);
       else
 	%%break
