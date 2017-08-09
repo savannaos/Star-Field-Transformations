@@ -11,9 +11,9 @@ nbatch = 8;
 batchwidth = 1;
 steps = 1000; 
 
-out_folder = '~/Star-Field-Transformations/starOut/8-08-17_2';
+out_folder = '~/Star-Field-Transformations/starOut/8-09-17';
 mkdir(out_folder);
-parent_output_dir = '/nh/compneuro/scratch/starOut/starField_SPM_9X9X32_5_1000/train18-08-17';
+parent_output_dir = '/nh/compneuro/scratch/starOut/starField_SPM_9X9X64_5_1000/train18-09-17';
 output_dir = parent_output_dir;
 
 title_str = ['energy'];
