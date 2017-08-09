@@ -1,0 +1,2302 @@
+debugParsing = true;
+HyPerCol "column" = {
+    suppressNonplasticCheckpoints = false;
+    randomSeed = 1234567890;
+    verifyWrites = false;
+    nx = 256;
+    dt = 1;
+    stopTime = 4700000;
+    outputPath = "/nh/compneuro/scratch/starOut/starField_SPM_9X9X16_5_1000/train18-07-17";
+    startTime = 0;
+    nbatch = 8;
+    checkpointWrite = true;
+    progressInterval = 10;
+    errorOnNotANumber = false;
+    checkpointWriteTriggerMode = "step";
+    numCheckpointsKept = 2;
+    writeTimescales = true;
+    checkpointWriteStepInterval = 10000;
+    deleteOlderCheckpoints = true;
+    checkpointWriteDir = "/nh/compneuro/scratch/starOut/starField_SPM_9X9X16_5_1000/train18-07-17/Checkpoints";
+    ny = 256;
+    writeProgressToErr = true;
+    printParamsFilename = "starField_SPM_9X9X16_5_1000_train1.params";
+};
+
+CloneConn "S1Oracle_1ToFrame_1ReconS1Oracle" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "Frame_1ReconS1Oracle";
+    updateGSynFromPostPerspective = false;
+    preLayerName = "S1Oracle_1";
+    channelCode = 0;
+    writeStep = -1;
+    convertRateToSpikeCount = false;
+    receiveGpu = false;
+    originalConnName = "S1Oracle_0ToFrame_0ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+L2NormProbe "Frame_0ReconErrorMuggleL2Probe" = {
+    textOutputFlag = false;
+    targetLayer = "Frame_0ReconErrorMuggle";
+    probeOutputFile = "Frame_0ReconErrorMuggleL2Probe.txt";
+    coefficient = 0.5;
+    energyProbe = "EnergyProbe";
+    exponent = 2;
+};
+
+L2NormProbe "Frame_1ReconErrorOracleL2Probe" = {
+    textOutputFlag = false;
+    targetLayer = "Frame_1ReconErrorOracle";
+    probeOutputFile = "Frame_1ReconErrorOracleL2Probe.txt";
+    coefficient = 0.5;
+    energyProbe = "EnergyProbe";
+    exponent = 2;
+};
+
+IdentConn "Frame_3ToFrame_3ReconErrorOracle" = {
+    postLayerName = "Frame_3ReconErrorOracle";
+    preLayerName = "Frame_3";
+    delay = [0];
+    channelCode = 0;
+};
+
+PlasticCloneConn "S1Diff_0ToFrame_2ReconErrorX" = {
+    postLayerName = "Frame_2ReconErrorX";
+    updateGSynFromPostPerspective = false;
+    preActivityIsNotRate = false;
+    preLayerName = "S1Diff_0";
+    channelCode = -1;
+    originalConnName = "S1Oracle_0ToFrame_2ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+CloneConn "S1Muggle_0ToFrame_0ReconS1Muggle" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "Frame_0ReconS1Muggle";
+    updateGSynFromPostPerspective = false;
+    preLayerName = "S1Muggle_0";
+    channelCode = 0;
+    writeStep = -1;
+    convertRateToSpikeCount = false;
+    receiveGpu = false;
+    originalConnName = "S1Oracle_0ToFrame_0ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+CloneVLayer "S1MuggleClone_2" = {
+    nf = 16;
+    phase = 2;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = -1;
+    mirrorBCflag = false;
+    valueBC = 0;
+    updateGpu = false;
+    initialWriteTime = -1;
+    originalLayerName = "S1Muggle_2";
+};
+
+IdentConn "Frame_0ToFrame_0ReconErrorMuggle" = {
+    postLayerName = "Frame_0ReconErrorMuggle";
+    preLayerName = "Frame_0";
+    delay = [0];
+    channelCode = 0;
+};
+
+RescaleConn "Frame_0ReconS1OracleToFrame_0ReconErrorX" = {
+    postLayerName = "Frame_0ReconErrorX";
+    preLayerName = "Frame_0ReconS1Oracle";
+    scale = 0.01;
+    delay = [0];
+    channelCode = 0;
+};
+
+IdentConn "Frame_3ToFrame_3ReconErrorMuggle" = {
+    postLayerName = "Frame_3ReconErrorMuggle";
+    preLayerName = "Frame_3";
+    delay = [0];
+    channelCode = 0;
+};
+
+L2NormProbe "Frame_1ReconErrorMuggleL2Probe" = {
+    textOutputFlag = false;
+    targetLayer = "Frame_1ReconErrorMuggle";
+    probeOutputFile = "Frame_1ReconErrorMuggleL2Probe.txt";
+    coefficient = 0.5;
+    energyProbe = "EnergyProbe";
+    exponent = 2;
+};
+
+CloneVLayer "S1OracleClone_2" = {
+    nf = 16;
+    phase = 2;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = -1;
+    mirrorBCflag = false;
+    valueBC = 0;
+    updateGpu = false;
+    initialWriteTime = -1;
+    originalLayerName = "S1Oracle_2";
+};
+
+HyPerLayer "Frame_0ReconErrorOracle" = {
+    nf = 1;
+    phase = 1;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = -1;
+    mirrorBCflag = false;
+    valueBC = 0;
+    updateGpu = false;
+    initialWriteTime = -1;
+    InitVType = "ZeroV";
+};
+
+PlasticCloneConn "S1Oracle_1ToFrame_2ReconErrorOracle" = {
+    postLayerName = "Frame_2ReconErrorOracle";
+    updateGSynFromPostPerspective = false;
+    preActivityIsNotRate = false;
+    preLayerName = "S1Oracle_1";
+    channelCode = -1;
+    originalConnName = "S1Oracle_0ToFrame_1ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+HyPerLayer "Frame_2ReconS1Muggle" = {
+    nf = 1;
+    phase = 3;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = 1000;
+    InitVType = "ZeroV";
+    valueBC = 0;
+    updateGpu = false;
+    mirrorBCflag = false;
+    initialWriteTime = 1000;
+};
+
+FirmThresholdCostFnLCAProbe "S1Oracle_0FirmThreshProbe" = {
+    textOutputFlag = false;
+    targetLayer = "S1Oracle_0";
+    probeOutputFile = "S1Oracle_0FirmThreshProbe.txt";
+    energyProbe = "EnergyProbe";
+};
+
+IdentConn "S1Oracle_0ToS1Diff_0" = {
+    postLayerName = "S1Diff_0";
+    preLayerName = "S1Oracle_0";
+    delay = [0];
+    channelCode = 0;
+};
+
+TransposeConn "Frame_2ReconErrorOracleToS1Oracle_1" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "S1Oracle_1";
+    gpuGroupIdx = -1;
+    channelCode = 0;
+    preLayerName = "Frame_2ReconErrorOracle";
+    convertRateToSpikeCount = false;
+    writeStep = -1;
+    updateGSynFromPostPerspective = true;
+    receiveGpu = true;
+    originalConnName = "S1Oracle_0ToFrame_1ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+CloneVLayer "S1OracleClone_0" = {
+    nf = 16;
+    phase = 2;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = -1;
+    mirrorBCflag = false;
+    valueBC = 0;
+    updateGpu = false;
+    initialWriteTime = -1;
+    originalLayerName = "S1Oracle_0";
+};
+
+RescaleConn "Frame_0ReconS1MuggleToFrame_0ReconErrorX" = {
+    postLayerName = "Frame_0ReconErrorX";
+    preLayerName = "Frame_0ReconS1Muggle";
+    scale = 0.01;
+    delay = [0];
+    channelCode = 1;
+};
+
+HyPerLayer "Frame_2ReconS1Oracle" = {
+    nf = 1;
+    phase = 3;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = 1000;
+    InitVType = "ZeroV";
+    valueBC = 0;
+    updateGpu = false;
+    mirrorBCflag = false;
+    initialWriteTime = 1000;
+};
+
+HyPerLCALayer "S1Oracle_0" = {
+    InitVType = "ConstantV";
+    triggerBehavior = "resetStateOnTrigger";
+    clearGSynInterval = 0;
+    writeStep = 1000;
+    AShift = [0.05];
+    valueBC = 0;
+    triggerOffset = 0;
+    triggerLayerName = "Frame_0";
+    mirrorBCflag = false;
+    initialWriteTime = 1000;
+    valueV = 0.025;
+    selfInteract = true;
+    triggerResetLayerName = "S1OracleClone_1";
+    nf = 16;
+    phase = 2;
+    nxScale = 1;
+    nyScale = 1;
+    updateGpu = true;
+    timeConstantTau = 500;
+    AMin = 0;
+    VThresh = 0.05;
+    writeSparseValues = true;
+    sparseLayer = true;
+    VWidth = 0;
+    adaptiveTimeScaleProbe = "AdaptiveTimeScales";
+    AMax = infinity;
+};
+
+HyPerLayer "Frame_1ReconErrorX" = {
+    triggerLayerName = "Frame_0";
+    triggerBehavior = "updateOnlyOnTrigger";
+    nf = 1;
+    phase = 4;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = -1;
+    triggerOffset = 1;
+    InitVType = "ZeroV";
+    valueBC = 0;
+    updateGpu = false;
+    mirrorBCflag = false;
+    initialWriteTime = -1;
+};
+
+HyPerLayer "S1Diff_0" = {
+    triggerLayerName = "Frame_0";
+    triggerBehavior = "updateOnlyOnTrigger";
+    nf = 16;
+    phase = 3;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = -1;
+    triggerOffset = 1;
+    valueBC = 0;
+    mirrorBCflag = false;
+    updateGpu = false;
+    initialWriteTime = -1;
+    InitVType = "ZeroV";
+};
+
+TransposeConn "Frame_1ReconErrorOracleToS1Oracle_1" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "S1Oracle_1";
+    gpuGroupIdx = -1;
+    channelCode = 0;
+    preLayerName = "Frame_1ReconErrorOracle";
+    convertRateToSpikeCount = false;
+    writeStep = -1;
+    updateGSynFromPostPerspective = true;
+    receiveGpu = true;
+    originalConnName = "S1Oracle_0ToFrame_0ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+PlasticCloneConn "S1Oracle_2ToFrame_3ReconErrorOracle" = {
+    postLayerName = "Frame_3ReconErrorOracle";
+    updateGSynFromPostPerspective = false;
+    preActivityIsNotRate = false;
+    preLayerName = "S1Oracle_2";
+    channelCode = -1;
+    originalConnName = "S1Oracle_0ToFrame_1ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+HyPerLCALayer "S1Oracle_2" = {
+    InitVType = "ConstantV";
+    clearGSynInterval = 0;
+    writeStep = 1000;
+    AShift = [0.05];
+    valueBC = 0;
+    mirrorBCflag = false;
+    initialWriteTime = 1000;
+    valueV = 0.025;
+    selfInteract = true;
+    nf = 16;
+    phase = 2;
+    nxScale = 1;
+    nyScale = 1;
+    updateGpu = true;
+    timeConstantTau = 500;
+    AMin = 0;
+    VThresh = 0.05;
+    writeSparseValues = true;
+    sparseLayer = true;
+    VWidth = 0;
+    adaptiveTimeScaleProbe = "AdaptiveTimeScales";
+    AMax = infinity;
+};
+
+IdentConn "S1Oracle_2ToS1Diff_2" = {
+    postLayerName = "S1Diff_2";
+    preLayerName = "S1Oracle_2";
+    delay = [0];
+    channelCode = 0;
+};
+
+HyPerLCALayer "S1Muggle_2" = {
+    InitVType = "ConstantV";
+    clearGSynInterval = 0;
+    writeStep = 1000;
+    AShift = [0.05];
+    valueBC = 0;
+    mirrorBCflag = false;
+    initialWriteTime = 1000;
+    valueV = 0.025;
+    selfInteract = true;
+    nf = 16;
+    phase = 2;
+    nxScale = 1;
+    nyScale = 1;
+    updateGpu = true;
+    timeConstantTau = 500;
+    AMin = 0;
+    VThresh = 0.05;
+    writeSparseValues = true;
+    sparseLayer = true;
+    VWidth = 0;
+    adaptiveTimeScaleProbe = "AdaptiveTimeScales";
+    AMax = infinity;
+};
+
+PlasticCloneConn "S1Diff_1ToFrame_3ReconErrorX" = {
+    postLayerName = "Frame_3ReconErrorX";
+    updateGSynFromPostPerspective = false;
+    preActivityIsNotRate = false;
+    preLayerName = "S1Diff_1";
+    channelCode = -1;
+    originalConnName = "S1Oracle_0ToFrame_2ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+HyPerLayer "Frame_3ReconS1Oracle" = {
+    nf = 1;
+    phase = 3;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = 1000;
+    InitVType = "ZeroV";
+    valueBC = 0;
+    updateGpu = false;
+    mirrorBCflag = false;
+    initialWriteTime = 1000;
+};
+
+HyPerLayer "Frame_1ReconErrorOracle" = {
+    nf = 1;
+    phase = 1;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = -1;
+    mirrorBCflag = false;
+    valueBC = 0;
+    updateGpu = false;
+    initialWriteTime = -1;
+    InitVType = "ZeroV";
+};
+
+HyPerLayer "Frame_2ReconErrorMuggle" = {
+    nf = 1;
+    phase = 1;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = -1;
+    mirrorBCflag = false;
+    valueBC = 0;
+    updateGpu = false;
+    initialWriteTime = -1;
+    InitVType = "ZeroV";
+};
+
+MomentumConn "S1Oracle_0ToFrame_1ReconErrorOracle" = {
+    rMinY = 0;
+    updateGSynFromPostPerspective = false;
+    normalizeFromPostPerspective = false;
+    momentumTau = 20;
+    numAxonalArbors = 1;
+    initialWeightUpdateTime = 1000;
+    pvpatchAccumulateType = "convolve";
+    normalizeArborsIndividually = false;
+    sharedWeights = true;
+    keepKernelsSynchronized = true;
+    sparseFraction = 0.9;
+    convertRateToSpikeCount = false;
+    receiveGpu = false;
+    initialWriteTime = -1;
+    channelCode = -1;
+    postLayerName = "Frame_1ReconErrorOracle";
+    plasticityFlag = true;
+    momentumDecay = 0;
+    normalizeGroupName = "S1Oracle_0ToFrame_0ReconErrorOracle";
+    preLayerName = "S1Oracle_0";
+    weightUpdatePeriod = 1000;
+    combineWeightFiles = false;
+    minL2NormTolerated = 0;
+    useMask = false;
+    nonnegativeConstraintFlag = false;
+    weightInitType = "UniformRandomWeight";
+    selfFlag = false;
+    nyp = 9;
+    immediateWeightUpdate = true;
+    writeCompressedCheckpoints = false;
+    nxp = 9;
+    normalizeOnInitialize = true;
+    useListOfArborFiles = false;
+    normalize_cutoff = 0;
+    wMinInit = -1;
+    strength = 1;
+    rMinX = 0;
+    momentumMethod = "viscosity";
+    normalizeOnWeightUpdate = true;
+    writeStep = -1;
+    dWMax = 1;
+    normalizeMethod = "normalizeGroup";
+    shrinkPatches = false;
+    delay = [0];
+    wMaxInit = 1;
+};
+
+HyPerLayer "Frame_3ReconErrorX" = {
+    triggerLayerName = "Frame_0";
+    triggerBehavior = "updateOnlyOnTrigger";
+    nf = 1;
+    phase = 4;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = -1;
+    triggerOffset = 1;
+    InitVType = "ZeroV";
+    valueBC = 0;
+    updateGpu = false;
+    mirrorBCflag = false;
+    initialWriteTime = -1;
+};
+
+IdentConn "Frame_2ReconS1OracleToFrame_2ReconErrorOracle" = {
+    postLayerName = "Frame_2ReconErrorOracle";
+    preLayerName = "Frame_2ReconS1Oracle";
+    delay = [0];
+    channelCode = 1;
+};
+
+HyPerLCALayer "S1Oracle_1" = {
+    InitVType = "ConstantV";
+    triggerBehavior = "resetStateOnTrigger";
+    clearGSynInterval = 0;
+    writeStep = 1000;
+    AShift = [0.05];
+    valueBC = 0;
+    triggerOffset = 0;
+    triggerLayerName = "Frame_0";
+    mirrorBCflag = false;
+    initialWriteTime = 1000;
+    valueV = 0.025;
+    selfInteract = true;
+    triggerResetLayerName = "S1OracleClone_2";
+    nf = 16;
+    phase = 2;
+    nxScale = 1;
+    nyScale = 1;
+    updateGpu = true;
+    timeConstantTau = 500;
+    AMin = 0;
+    VThresh = 0.05;
+    writeSparseValues = true;
+    sparseLayer = true;
+    VWidth = 0;
+    adaptiveTimeScaleProbe = "AdaptiveTimeScales";
+    AMax = infinity;
+};
+
+HyPerLayer "Frame_4ReconErrorX" = {
+    triggerLayerName = "Frame_0";
+    triggerBehavior = "updateOnlyOnTrigger";
+    nf = 1;
+    phase = 4;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = -1;
+    triggerOffset = 1;
+    InitVType = "ZeroV";
+    valueBC = 0;
+    updateGpu = false;
+    mirrorBCflag = false;
+    initialWriteTime = -1;
+};
+
+TransposeConn "Frame_3ReconErrorMuggleToS1Muggle_2" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "S1Muggle_2";
+    gpuGroupIdx = -1;
+    channelCode = 0;
+    preLayerName = "Frame_3ReconErrorMuggle";
+    convertRateToSpikeCount = false;
+    writeStep = -1;
+    updateGSynFromPostPerspective = true;
+    receiveGpu = true;
+    originalConnName = "S1Oracle_0ToFrame_1ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+TransposeConn "Frame_3ReconErrorOracleToS1Oracle_2" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "S1Oracle_2";
+    gpuGroupIdx = -1;
+    channelCode = 0;
+    preLayerName = "Frame_3ReconErrorOracle";
+    convertRateToSpikeCount = false;
+    writeStep = -1;
+    updateGSynFromPostPerspective = true;
+    receiveGpu = true;
+    originalConnName = "S1Oracle_0ToFrame_1ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+HyPerLayer "Frame_4ReconS1Oracle" = {
+    nf = 1;
+    phase = 3;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = 1000;
+    InitVType = "ZeroV";
+    valueBC = 0;
+    updateGpu = false;
+    mirrorBCflag = false;
+    initialWriteTime = 1000;
+};
+
+L2NormProbe "Frame_0ReconErrorOracleL2Probe" = {
+    textOutputFlag = false;
+    targetLayer = "Frame_0ReconErrorOracle";
+    probeOutputFile = "Frame_0ReconErrorOracleL2Probe.txt";
+    coefficient = 0.5;
+    energyProbe = "EnergyProbe";
+    exponent = 2;
+};
+
+IdentConn "Frame_1ReconS1OracleToFrame_1ReconErrorOracle" = {
+    postLayerName = "Frame_1ReconErrorOracle";
+    preLayerName = "Frame_1ReconS1Oracle";
+    delay = [0];
+    channelCode = 1;
+};
+
+CloneConn "S1Oracle_2ToFrame_3ReconS1Oracle" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "Frame_3ReconS1Oracle";
+    updateGSynFromPostPerspective = false;
+    preLayerName = "S1Oracle_2";
+    channelCode = 0;
+    writeStep = -1;
+    convertRateToSpikeCount = false;
+    receiveGpu = false;
+    originalConnName = "S1Oracle_0ToFrame_1ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+TransposeConn "Frame_2ReconErrorOracleToS1Oracle_2" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "S1Oracle_2";
+    gpuGroupIdx = -1;
+    channelCode = 0;
+    preLayerName = "Frame_2ReconErrorOracle";
+    convertRateToSpikeCount = false;
+    writeStep = -1;
+    updateGSynFromPostPerspective = true;
+    receiveGpu = true;
+    originalConnName = "S1Oracle_0ToFrame_0ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+L2NormProbe "Frame_2ReconErrorOracleL2Probe" = {
+    textOutputFlag = false;
+    targetLayer = "Frame_2ReconErrorOracle";
+    probeOutputFile = "Frame_2ReconErrorOracleL2Probe.txt";
+    coefficient = 0.5;
+    energyProbe = "EnergyProbe";
+    exponent = 2;
+};
+
+HyPerLayer "Frame_3ReconS1Muggle" = {
+    nf = 1;
+    phase = 3;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = 1000;
+    InitVType = "ZeroV";
+    valueBC = 0;
+    updateGpu = false;
+    mirrorBCflag = false;
+    initialWriteTime = 1000;
+};
+
+HyPerConn "S1Oracle_0ToFrame_0_ATA" = {
+    updateGSynFromPostPerspective = false;
+    numAxonalArbors = 1;
+    pvpatchAccumulateType = "convolve";
+    sharedWeights = true;
+    keepKernelsSynchronized = true;
+    sparseFraction = 0;
+    convertRateToSpikeCount = false;
+    receiveGpu = false;
+    initialWriteTime = -1;
+    channelCode = -1;
+    postLayerName = "Frame_0";
+    plasticityFlag = true;
+    immediateWeightUpdate = true;
+    weightInitType = "UniformRandomWeight";
+    wMaxInit = 0;
+    useMask = false;
+    triggerLayerName = "Frame_0";
+    combineWeightFiles = false;
+    nyp = 9;
+    useListOfArborFiles = false;
+    nxp = 9;
+    wMinInit = 0;
+    selfFlag = false;
+    preLayerName = "S1Oracle_0";
+    initializeFromCheckpointFlag = false;
+    writeCompressedCheckpoints = false;
+    writeStep = -1;
+    dWMax = 1;
+    normalizeMethod = "none";
+    shrinkPatches = false;
+    delay = [0];
+    triggerOffset = 0;
+};
+
+FirmThresholdCostFnLCAProbe "S1Oracle_2FirmThreshProbe" = {
+    textOutputFlag = false;
+    targetLayer = "S1Oracle_2";
+    probeOutputFile = "S1Oracle_2FirmThreshProbe.txt";
+    energyProbe = "EnergyProbe";
+};
+
+PlasticCloneConn "S1Diff_0ToFrame_0ReconErrorX" = {
+    postLayerName = "Frame_0ReconErrorX";
+    updateGSynFromPostPerspective = false;
+    preActivityIsNotRate = false;
+    preLayerName = "S1Diff_0";
+    channelCode = -1;
+    originalConnName = "S1Oracle_0ToFrame_0ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+PlasticCloneConn "S1Diff_2ToFrame_3ReconErrorX" = {
+    postLayerName = "Frame_3ReconErrorX";
+    updateGSynFromPostPerspective = false;
+    preActivityIsNotRate = false;
+    preLayerName = "S1Diff_2";
+    channelCode = -1;
+    originalConnName = "S1Oracle_0ToFrame_1ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+L2NormProbe "Frame_2ReconErrorMuggleL2Probe" = {
+    textOutputFlag = false;
+    targetLayer = "Frame_2ReconErrorMuggle";
+    probeOutputFile = "Frame_2ReconErrorMuggleL2Probe.txt";
+    coefficient = 0.5;
+    energyProbe = "EnergyProbe";
+    exponent = 2;
+};
+
+CloneConn "S1Muggle_1ToFrame_1ReconS1Muggle" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "Frame_1ReconS1Muggle";
+    updateGSynFromPostPerspective = false;
+    preLayerName = "S1Muggle_1";
+    channelCode = 0;
+    writeStep = -1;
+    convertRateToSpikeCount = false;
+    receiveGpu = false;
+    originalConnName = "S1Oracle_0ToFrame_0ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+HyPerLayer "Frame_4ReconErrorMuggle" = {
+    nf = 1;
+    phase = 1;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = -1;
+    mirrorBCflag = false;
+    valueBC = 0;
+    updateGpu = false;
+    initialWriteTime = -1;
+    InitVType = "ZeroV";
+};
+
+HyPerLayer "Frame_1ReconErrorMuggle" = {
+    nf = 1;
+    phase = 1;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = -1;
+    mirrorBCflag = false;
+    valueBC = 0;
+    updateGpu = false;
+    initialWriteTime = -1;
+    InitVType = "ZeroV";
+};
+
+MomentumConn "S1Oracle_0ToFrame_0ReconErrorOracle" = {
+    rMinY = 0;
+    updateGSynFromPostPerspective = false;
+    normalizeFromPostPerspective = false;
+    momentumTau = 20;
+    numAxonalArbors = 1;
+    initialWeightUpdateTime = 1000;
+    pvpatchAccumulateType = "convolve";
+    normalizeArborsIndividually = false;
+    sharedWeights = true;
+    keepKernelsSynchronized = true;
+    sparseFraction = 0.9;
+    convertRateToSpikeCount = false;
+    receiveGpu = false;
+    initialWriteTime = -1;
+    channelCode = -1;
+    postLayerName = "Frame_0ReconErrorOracle";
+    plasticityFlag = true;
+    momentumDecay = 0;
+    preLayerName = "S1Oracle_0";
+    weightUpdatePeriod = 1000;
+    combineWeightFiles = false;
+    minL2NormTolerated = 0;
+    useMask = false;
+    nonnegativeConstraintFlag = false;
+    weightInitType = "UniformRandomWeight";
+    selfFlag = false;
+    nyp = 9;
+    immediateWeightUpdate = true;
+    writeCompressedCheckpoints = false;
+    nxp = 9;
+    normalizeOnInitialize = true;
+    useListOfArborFiles = false;
+    normalize_cutoff = 0;
+    wMinInit = -1;
+    strength = 1;
+    rMinX = 0;
+    momentumMethod = "viscosity";
+    normalizeOnWeightUpdate = true;
+    writeStep = -1;
+    dWMax = 1;
+    normalizeMethod = "normalizeL2";
+    shrinkPatches = false;
+    delay = [0];
+    wMaxInit = 1;
+};
+
+PvpLayer "Frame_1" = {
+    padValue = 0;
+    aspectRatioAdjustment = "crop";
+    start_frame_index = [2, 60, 119, 178, 237, 295, 354, 413];
+    normalizeLuminanceFlag = false;
+    resetToStartOnLoop = false;
+    sparseLayer = false;
+    displayPeriod = 1000;
+    offsetX = 0;
+    useInputBCflag = false;
+    batchMethod = "bySpecified";
+    mirrorBCflag = true;
+    initialWriteTime = 1000;
+    normalizeStdDev = false;
+    inputPath = "/home/ssmith/Star-Field-Transformations/data/starFieldpvp/move_by_alpha8-1.pvp";
+    skip_frame_index = [1, 1, 1, 1, 1, 1, 1, 1];
+    nf = 1;
+    phase = 0;
+    nxScale = 1;
+    autoResizeFlag = true;
+    offsetY = 0;
+    inverseFlag = false;
+    writeImages = 0;
+    nyScale = 1;
+    offsetAnchor = "cc";
+    jitterFlag = 0;
+    updateGpu = false;
+    writeFrameToTimestamp = true;
+    writeStep = 1000;
+};
+
+L2NormProbe "Frame_4ReconErrorOracleL2Probe" = {
+    textOutputFlag = false;
+    targetLayer = "Frame_4ReconErrorOracle";
+    probeOutputFile = "Frame_4ReconErrorOracleL2Probe.txt";
+    coefficient = 0.5;
+    energyProbe = "EnergyProbe";
+    exponent = 2;
+};
+
+TransposeConn "Frame_3ReconErrorOracleToS1Oracle_1" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "S1Oracle_1";
+    gpuGroupIdx = -1;
+    channelCode = 0;
+    preLayerName = "Frame_3ReconErrorOracle";
+    convertRateToSpikeCount = false;
+    writeStep = -1;
+    updateGSynFromPostPerspective = true;
+    receiveGpu = true;
+    originalConnName = "S1Oracle_0ToFrame_2ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+PlasticCloneConn "S1Oracle_1ToFrame_3_ATA" = {
+    postLayerName = "Frame_3";
+    updateGSynFromPostPerspective = false;
+    preActivityIsNotRate = false;
+    preLayerName = "S1Oracle_1";
+    channelCode = -1;
+    originalConnName = "S1Oracle_0ToFrame_2_ATA";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+HyPerLCALayer "S1Muggle_1" = {
+    InitVType = "ConstantV";
+    triggerBehavior = "resetStateOnTrigger";
+    clearGSynInterval = 0;
+    writeStep = 1000;
+    AShift = [0.05];
+    valueBC = 0;
+    triggerOffset = 0;
+    triggerLayerName = "Frame_0";
+    mirrorBCflag = false;
+    initialWriteTime = 1000;
+    valueV = 0.025;
+    selfInteract = true;
+    triggerResetLayerName = "S1MuggleClone_2";
+    nf = 16;
+    phase = 2;
+    nxScale = 1;
+    nyScale = 1;
+    updateGpu = true;
+    timeConstantTau = 500;
+    AMin = 0;
+    VThresh = 0.05;
+    writeSparseValues = true;
+    sparseLayer = true;
+    VWidth = 0;
+    adaptiveTimeScaleProbe = "AdaptiveTimeScales";
+    AMax = infinity;
+};
+
+HyPerLayer "Frame_0ReconS1Oracle" = {
+    nf = 1;
+    phase = 3;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = 1000;
+    InitVType = "ZeroV";
+    valueBC = 0;
+    updateGpu = false;
+    mirrorBCflag = false;
+    initialWriteTime = 1000;
+};
+
+HyPerLayer "Frame_3ReconErrorOracle" = {
+    nf = 1;
+    phase = 1;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = -1;
+    mirrorBCflag = false;
+    valueBC = 0;
+    updateGpu = false;
+    initialWriteTime = -1;
+    InitVType = "ZeroV";
+};
+
+IdentConn "Frame_4ToFrame_4ReconErrorOracle" = {
+    postLayerName = "Frame_4ReconErrorOracle";
+    preLayerName = "Frame_4";
+    delay = [0];
+    channelCode = 0;
+};
+
+HyPerLayer "Frame_4ReconS1Muggle" = {
+    nf = 1;
+    phase = 3;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = 1000;
+    InitVType = "ZeroV";
+    valueBC = 0;
+    updateGpu = false;
+    mirrorBCflag = false;
+    initialWriteTime = 1000;
+};
+
+FirmThresholdCostFnLCAProbe "S1Oracle_1FirmThreshProbe" = {
+    textOutputFlag = false;
+    targetLayer = "S1Oracle_1";
+    probeOutputFile = "S1Oracle_1FirmThreshProbe.txt";
+    energyProbe = "EnergyProbe";
+};
+
+PvpLayer "Frame_4" = {
+    padValue = 0;
+    aspectRatioAdjustment = "crop";
+    start_frame_index = [5, 63, 122, 181, 240, 298, 357, 416];
+    normalizeLuminanceFlag = false;
+    resetToStartOnLoop = false;
+    sparseLayer = false;
+    displayPeriod = 1000;
+    offsetX = 0;
+    useInputBCflag = false;
+    batchMethod = "bySpecified";
+    mirrorBCflag = true;
+    initialWriteTime = 1000;
+    normalizeStdDev = false;
+    inputPath = "/home/ssmith/Star-Field-Transformations/data/starFieldpvp/move_by_alpha8-1.pvp";
+    skip_frame_index = [1, 1, 1, 1, 1, 1, 1, 1];
+    nf = 1;
+    phase = 0;
+    nxScale = 1;
+    autoResizeFlag = true;
+    offsetY = 0;
+    inverseFlag = false;
+    writeImages = 0;
+    nyScale = 1;
+    offsetAnchor = "cc";
+    jitterFlag = 0;
+    updateGpu = false;
+    writeFrameToTimestamp = true;
+    writeStep = 1000;
+};
+
+TransposeConn "Frame_0ReconErrorMuggleToS1Muggle_0" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "S1Muggle_0";
+    gpuGroupIdx = -1;
+    channelCode = 0;
+    preLayerName = "Frame_0ReconErrorMuggle";
+    convertRateToSpikeCount = false;
+    writeStep = -1;
+    updateGSynFromPostPerspective = true;
+    receiveGpu = true;
+    originalConnName = "S1Oracle_0ToFrame_0ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+RescaleConn "Frame_2ReconS1OracleToFrame_2ReconErrorX" = {
+    postLayerName = "Frame_2ReconErrorX";
+    preLayerName = "Frame_2ReconS1Oracle";
+    scale = 0.01;
+    delay = [0];
+    channelCode = 0;
+};
+
+HyPerLCALayer "S1Muggle_0" = {
+    InitVType = "ConstantV";
+    triggerBehavior = "resetStateOnTrigger";
+    clearGSynInterval = 0;
+    writeStep = 1000;
+    AShift = [0.05];
+    valueBC = 0;
+    triggerOffset = 0;
+    triggerLayerName = "Frame_0";
+    mirrorBCflag = false;
+    initialWriteTime = 1000;
+    valueV = 0.025;
+    selfInteract = true;
+    triggerResetLayerName = "S1MuggleClone_1";
+    nf = 16;
+    phase = 2;
+    nxScale = 1;
+    nyScale = 1;
+    updateGpu = true;
+    timeConstantTau = 500;
+    AMin = 0;
+    VThresh = 0.05;
+    writeSparseValues = true;
+    sparseLayer = true;
+    VWidth = 0;
+    adaptiveTimeScaleProbe = "AdaptiveTimeScales";
+    AMax = infinity;
+};
+
+PvpLayer "Frame_0" = {
+    padValue = 0;
+    aspectRatioAdjustment = "crop";
+    start_frame_index = [1, 59, 118, 177, 236, 294, 353, 412];
+    normalizeLuminanceFlag = false;
+    resetToStartOnLoop = false;
+    sparseLayer = false;
+    displayPeriod = 1000;
+    offsetX = 0;
+    useInputBCflag = false;
+    batchMethod = "bySpecified";
+    mirrorBCflag = true;
+    initialWriteTime = 1000;
+    normalizeStdDev = false;
+    inputPath = "/home/ssmith/Star-Field-Transformations/data/starFieldpvp/move_by_alpha8-1.pvp";
+    skip_frame_index = [1, 1, 1, 1, 1, 1, 1, 1];
+    nf = 1;
+    phase = 0;
+    nxScale = 1;
+    autoResizeFlag = true;
+    offsetY = 0;
+    inverseFlag = false;
+    writeImages = 0;
+    nyScale = 1;
+    offsetAnchor = "cc";
+    jitterFlag = 0;
+    updateGpu = false;
+    writeFrameToTimestamp = true;
+    writeStep = 1000;
+};
+
+CloneConn "S1Muggle_2ToFrame_4ReconS1Muggle" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "Frame_4ReconS1Muggle";
+    updateGSynFromPostPerspective = false;
+    preLayerName = "S1Muggle_2";
+    channelCode = 0;
+    writeStep = -1;
+    convertRateToSpikeCount = false;
+    receiveGpu = false;
+    originalConnName = "S1Oracle_0ToFrame_2ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+TransposeConn "Frame_1ReconErrorMuggleToS1Muggle_0" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "S1Muggle_0";
+    gpuGroupIdx = -1;
+    channelCode = 0;
+    preLayerName = "Frame_1ReconErrorMuggle";
+    convertRateToSpikeCount = false;
+    writeStep = -1;
+    updateGSynFromPostPerspective = true;
+    receiveGpu = true;
+    originalConnName = "S1Oracle_0ToFrame_1ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+CloneConn "S1Muggle_2ToFrame_3ReconS1Muggle" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "Frame_3ReconS1Muggle";
+    updateGSynFromPostPerspective = false;
+    preLayerName = "S1Muggle_2";
+    channelCode = 0;
+    writeStep = -1;
+    convertRateToSpikeCount = false;
+    receiveGpu = false;
+    originalConnName = "S1Oracle_0ToFrame_1ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+CloneConn "S1Muggle_1ToFrame_3ReconS1Muggle" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "Frame_3ReconS1Muggle";
+    updateGSynFromPostPerspective = false;
+    preLayerName = "S1Muggle_1";
+    channelCode = 0;
+    writeStep = -1;
+    convertRateToSpikeCount = false;
+    receiveGpu = false;
+    originalConnName = "S1Oracle_0ToFrame_2ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+PlasticCloneConn "S1Oracle_2ToFrame_2_ATA" = {
+    postLayerName = "Frame_2";
+    updateGSynFromPostPerspective = false;
+    preActivityIsNotRate = false;
+    preLayerName = "S1Oracle_2";
+    channelCode = -1;
+    originalConnName = "S1Oracle_0ToFrame_0_ATA";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+IdentConn "Frame_0ToFrame_0ReconErrorOracle" = {
+    postLayerName = "Frame_0ReconErrorOracle";
+    preLayerName = "Frame_0";
+    delay = [0];
+    channelCode = 0;
+};
+
+HyPerLayer "S1Diff_1" = {
+    triggerLayerName = "Frame_0";
+    triggerBehavior = "updateOnlyOnTrigger";
+    nf = 16;
+    phase = 3;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = -1;
+    triggerOffset = 1;
+    valueBC = 0;
+    mirrorBCflag = false;
+    updateGpu = false;
+    initialWriteTime = -1;
+    InitVType = "ZeroV";
+};
+
+IdentConn "Frame_0ReconS1MuggleToFrame_0ReconErrorMuggle" = {
+    postLayerName = "Frame_0ReconErrorMuggle";
+    preLayerName = "Frame_0ReconS1Muggle";
+    delay = [0];
+    channelCode = 1;
+};
+
+TransposeConn "Frame_2ReconErrorMuggleToS1Muggle_2" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "S1Muggle_2";
+    gpuGroupIdx = -1;
+    channelCode = 0;
+    preLayerName = "Frame_2ReconErrorMuggle";
+    convertRateToSpikeCount = false;
+    writeStep = -1;
+    updateGSynFromPostPerspective = true;
+    receiveGpu = true;
+    originalConnName = "S1Oracle_0ToFrame_0ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+CloneVLayer "S1OracleClone_1" = {
+    nf = 16;
+    phase = 2;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = -1;
+    mirrorBCflag = false;
+    valueBC = 0;
+    updateGpu = false;
+    initialWriteTime = -1;
+    originalLayerName = "S1Oracle_1";
+};
+
+PlasticCloneConn "S1Diff_2ToFrame_2ReconErrorX" = {
+    postLayerName = "Frame_2ReconErrorX";
+    updateGSynFromPostPerspective = false;
+    preActivityIsNotRate = false;
+    preLayerName = "S1Diff_2";
+    channelCode = -1;
+    originalConnName = "S1Oracle_0ToFrame_0ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+CloneConn "S1Muggle_1ToFrame_2ReconS1Muggle" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "Frame_2ReconS1Muggle";
+    updateGSynFromPostPerspective = false;
+    preLayerName = "S1Muggle_1";
+    channelCode = 0;
+    writeStep = -1;
+    convertRateToSpikeCount = false;
+    receiveGpu = false;
+    originalConnName = "S1Oracle_0ToFrame_1ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+PvpLayer "Frame_3" = {
+    padValue = 0;
+    aspectRatioAdjustment = "crop";
+    start_frame_index = [4, 62, 121, 180, 239, 297, 356, 415];
+    normalizeLuminanceFlag = false;
+    resetToStartOnLoop = false;
+    sparseLayer = false;
+    displayPeriod = 1000;
+    offsetX = 0;
+    useInputBCflag = false;
+    batchMethod = "bySpecified";
+    mirrorBCflag = true;
+    initialWriteTime = 1000;
+    normalizeStdDev = false;
+    inputPath = "/home/ssmith/Star-Field-Transformations/data/starFieldpvp/move_by_alpha8-1.pvp";
+    skip_frame_index = [1, 1, 1, 1, 1, 1, 1, 1];
+    nf = 1;
+    phase = 0;
+    nxScale = 1;
+    autoResizeFlag = true;
+    offsetY = 0;
+    inverseFlag = false;
+    writeImages = 0;
+    nyScale = 1;
+    offsetAnchor = "cc";
+    jitterFlag = 0;
+    updateGpu = false;
+    writeFrameToTimestamp = true;
+    writeStep = 1000;
+};
+
+HyPerLayer "Frame_4ReconErrorOracle" = {
+    nf = 1;
+    phase = 1;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = -1;
+    mirrorBCflag = false;
+    valueBC = 0;
+    updateGpu = false;
+    initialWriteTime = -1;
+    InitVType = "ZeroV";
+};
+
+PlasticCloneConn "S1Diff_1ToFrame_2ReconErrorX" = {
+    postLayerName = "Frame_2ReconErrorX";
+    updateGSynFromPostPerspective = false;
+    preActivityIsNotRate = false;
+    preLayerName = "S1Diff_1";
+    channelCode = -1;
+    originalConnName = "S1Oracle_0ToFrame_1ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+CloneConn "S1Muggle_0ToFrame_2ReconS1Muggle" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "Frame_2ReconS1Muggle";
+    updateGSynFromPostPerspective = false;
+    preLayerName = "S1Muggle_0";
+    channelCode = 0;
+    writeStep = -1;
+    convertRateToSpikeCount = false;
+    receiveGpu = false;
+    originalConnName = "S1Oracle_0ToFrame_2ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+TransposeConn "Frame_2ReconErrorMuggleToS1Muggle_0" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "S1Muggle_0";
+    gpuGroupIdx = -1;
+    channelCode = 0;
+    preLayerName = "Frame_2ReconErrorMuggle";
+    convertRateToSpikeCount = false;
+    writeStep = -1;
+    updateGSynFromPostPerspective = true;
+    receiveGpu = true;
+    originalConnName = "S1Oracle_0ToFrame_2ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+TransposeConn "Frame_1ReconErrorMuggleToS1Muggle_1" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "S1Muggle_1";
+    gpuGroupIdx = -1;
+    channelCode = 0;
+    preLayerName = "Frame_1ReconErrorMuggle";
+    convertRateToSpikeCount = false;
+    writeStep = -1;
+    updateGSynFromPostPerspective = true;
+    receiveGpu = true;
+    originalConnName = "S1Oracle_0ToFrame_0ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+IdentConn "Frame_2ReconS1MuggleToFrame_2ReconErrorMuggle" = {
+    postLayerName = "Frame_2ReconErrorMuggle";
+    preLayerName = "Frame_2ReconS1Muggle";
+    delay = [0];
+    channelCode = 1;
+};
+
+CloneConn "S1Muggle_0ToFrame_1ReconS1Muggle" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "Frame_1ReconS1Muggle";
+    updateGSynFromPostPerspective = false;
+    preLayerName = "S1Muggle_0";
+    channelCode = 0;
+    writeStep = -1;
+    convertRateToSpikeCount = false;
+    receiveGpu = false;
+    originalConnName = "S1Oracle_0ToFrame_1ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+PlasticCloneConn "S1Diff_2ToFrame_4ReconErrorX" = {
+    postLayerName = "Frame_4ReconErrorX";
+    updateGSynFromPostPerspective = false;
+    preActivityIsNotRate = false;
+    preLayerName = "S1Diff_2";
+    channelCode = -1;
+    originalConnName = "S1Oracle_0ToFrame_2ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+PlasticCloneConn "S1Diff_0ToFrame_1ReconErrorX" = {
+    postLayerName = "Frame_1ReconErrorX";
+    updateGSynFromPostPerspective = false;
+    preActivityIsNotRate = false;
+    preLayerName = "S1Diff_0";
+    channelCode = -1;
+    originalConnName = "S1Oracle_0ToFrame_1ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+IdentConn "Frame_4ReconS1MuggleToFrame_4ReconErrorMuggle" = {
+    postLayerName = "Frame_4ReconErrorMuggle";
+    preLayerName = "Frame_4ReconS1Muggle";
+    delay = [0];
+    channelCode = 1;
+};
+
+HyPerConn "S1Oracle_0ToFrame_1_ATA" = {
+    updateGSynFromPostPerspective = false;
+    numAxonalArbors = 1;
+    pvpatchAccumulateType = "convolve";
+    sharedWeights = true;
+    keepKernelsSynchronized = true;
+    sparseFraction = 0;
+    convertRateToSpikeCount = false;
+    receiveGpu = false;
+    initialWriteTime = -1;
+    channelCode = -1;
+    postLayerName = "Frame_1";
+    plasticityFlag = true;
+    immediateWeightUpdate = true;
+    weightInitType = "UniformRandomWeight";
+    wMaxInit = 0;
+    useMask = false;
+    triggerLayerName = "Frame_0";
+    combineWeightFiles = false;
+    nyp = 9;
+    useListOfArborFiles = false;
+    nxp = 9;
+    wMinInit = 0;
+    selfFlag = false;
+    preLayerName = "S1Oracle_0";
+    initializeFromCheckpointFlag = false;
+    writeCompressedCheckpoints = false;
+    writeStep = -1;
+    dWMax = 1;
+    normalizeMethod = "none";
+    shrinkPatches = false;
+    delay = [0];
+    triggerOffset = 0;
+};
+
+L2NormProbe "Frame_3ReconErrorMuggleL2Probe" = {
+    textOutputFlag = false;
+    targetLayer = "Frame_3ReconErrorMuggle";
+    probeOutputFile = "Frame_3ReconErrorMuggleL2Probe.txt";
+    coefficient = 0.5;
+    energyProbe = "EnergyProbe";
+    exponent = 2;
+};
+
+RescaleConn "Frame_4ReconS1MuggleToFrame_4ReconErrorX" = {
+    postLayerName = "Frame_4ReconErrorX";
+    preLayerName = "Frame_4ReconS1Muggle";
+    scale = 0.01;
+    delay = [0];
+    channelCode = 1;
+};
+
+RescaleConn "Frame_4ReconS1OracleToFrame_4ReconErrorX" = {
+    postLayerName = "Frame_4ReconErrorX";
+    preLayerName = "Frame_4ReconS1Oracle";
+    scale = 0.01;
+    delay = [0];
+    channelCode = 0;
+};
+
+IdentConn "Frame_4ToFrame_4ReconErrorMuggle" = {
+    postLayerName = "Frame_4ReconErrorMuggle";
+    preLayerName = "Frame_4";
+    delay = [0];
+    channelCode = 0;
+};
+
+IdentConn "Frame_3ReconS1MuggleToFrame_3ReconErrorMuggle" = {
+    postLayerName = "Frame_3ReconErrorMuggle";
+    preLayerName = "Frame_3ReconS1Muggle";
+    delay = [0];
+    channelCode = 1;
+};
+
+IdentConn "Frame_1ToFrame_1ReconErrorOracle" = {
+    postLayerName = "Frame_1ReconErrorOracle";
+    preLayerName = "Frame_1";
+    delay = [0];
+    channelCode = 0;
+};
+
+RescaleConn "Frame_3ReconS1MuggleToFrame_3ReconErrorX" = {
+    postLayerName = "Frame_3ReconErrorX";
+    preLayerName = "Frame_3ReconS1Muggle";
+    scale = 0.01;
+    delay = [0];
+    channelCode = 1;
+};
+
+RescaleConn "Frame_3ReconS1OracleToFrame_3ReconErrorX" = {
+    postLayerName = "Frame_3ReconErrorX";
+    preLayerName = "Frame_3ReconS1Oracle";
+    scale = 0.01;
+    delay = [0];
+    channelCode = 0;
+};
+
+CloneConn "S1Oracle_1ToFrame_2ReconS1Oracle" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "Frame_2ReconS1Oracle";
+    updateGSynFromPostPerspective = false;
+    preLayerName = "S1Oracle_1";
+    channelCode = 0;
+    writeStep = -1;
+    convertRateToSpikeCount = false;
+    receiveGpu = false;
+    originalConnName = "S1Oracle_0ToFrame_1ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+PlasticCloneConn "S1Diff_1ToFrame_1ReconErrorX" = {
+    postLayerName = "Frame_1ReconErrorX";
+    updateGSynFromPostPerspective = false;
+    preActivityIsNotRate = false;
+    preLayerName = "S1Diff_1";
+    channelCode = -1;
+    originalConnName = "S1Oracle_0ToFrame_0ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+IdentConn "Frame_3ReconS1OracleToFrame_3ReconErrorOracle" = {
+    postLayerName = "Frame_3ReconErrorOracle";
+    preLayerName = "Frame_3ReconS1Oracle";
+    delay = [0];
+    channelCode = 1;
+};
+
+RescaleConn "Frame_2ReconS1MuggleToFrame_2ReconErrorX" = {
+    postLayerName = "Frame_2ReconErrorX";
+    preLayerName = "Frame_2ReconS1Muggle";
+    scale = 0.01;
+    delay = [0];
+    channelCode = 1;
+};
+
+TransposeConn "Frame_2ReconErrorOracleToS1Oracle_0" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "S1Oracle_0";
+    gpuGroupIdx = -1;
+    channelCode = 0;
+    preLayerName = "Frame_2ReconErrorOracle";
+    convertRateToSpikeCount = false;
+    writeStep = -1;
+    updateGSynFromPostPerspective = true;
+    receiveGpu = true;
+    originalConnName = "S1Oracle_0ToFrame_2ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+ColumnEnergyProbe "EnergyProbe" = {
+    textOutputFlag = true;
+    probeOutputFile = "EnergyProbe.txt";
+};
+
+CloneConn "S1Oracle_0ToFrame_1ReconS1Oracle" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "Frame_1ReconS1Oracle";
+    updateGSynFromPostPerspective = false;
+    preLayerName = "S1Oracle_0";
+    channelCode = 0;
+    writeStep = -1;
+    convertRateToSpikeCount = false;
+    receiveGpu = false;
+    originalConnName = "S1Oracle_0ToFrame_1ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+IdentConn "Frame_2ToFrame_2ReconErrorMuggle" = {
+    postLayerName = "Frame_2ReconErrorMuggle";
+    preLayerName = "Frame_2";
+    delay = [0];
+    channelCode = 0;
+};
+
+IdentConn "Frame_1ReconS1MuggleToFrame_1ReconErrorMuggle" = {
+    postLayerName = "Frame_1ReconErrorMuggle";
+    preLayerName = "Frame_1ReconS1Muggle";
+    delay = [0];
+    channelCode = 1;
+};
+
+RescaleConn "Frame_1ReconS1MuggleToFrame_1ReconErrorX" = {
+    postLayerName = "Frame_1ReconErrorX";
+    preLayerName = "Frame_1ReconS1Muggle";
+    scale = 0.01;
+    delay = [0];
+    channelCode = 1;
+};
+
+RescaleConn "Frame_1ReconS1OracleToFrame_1ReconErrorX" = {
+    postLayerName = "Frame_1ReconErrorX";
+    preLayerName = "Frame_1ReconS1Oracle";
+    scale = 0.01;
+    delay = [0];
+    channelCode = 0;
+};
+
+PvpLayer "Frame_2" = {
+    padValue = 0;
+    aspectRatioAdjustment = "crop";
+    start_frame_index = [3, 61, 120, 179, 238, 296, 355, 414];
+    normalizeLuminanceFlag = false;
+    resetToStartOnLoop = false;
+    sparseLayer = false;
+    displayPeriod = 1000;
+    offsetX = 0;
+    useInputBCflag = false;
+    batchMethod = "bySpecified";
+    mirrorBCflag = true;
+    initialWriteTime = 1000;
+    normalizeStdDev = false;
+    inputPath = "/home/ssmith/Star-Field-Transformations/data/starFieldpvp/move_by_alpha8-1.pvp";
+    skip_frame_index = [1, 1, 1, 1, 1, 1, 1, 1];
+    nf = 1;
+    phase = 0;
+    nxScale = 1;
+    autoResizeFlag = true;
+    offsetY = 0;
+    inverseFlag = false;
+    writeImages = 0;
+    nyScale = 1;
+    offsetAnchor = "cc";
+    jitterFlag = 0;
+    updateGpu = false;
+    writeFrameToTimestamp = true;
+    writeStep = 1000;
+};
+
+HyPerLayer "Frame_2ReconErrorX" = {
+    triggerLayerName = "Frame_0";
+    triggerBehavior = "updateOnlyOnTrigger";
+    nf = 1;
+    phase = 4;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = -1;
+    triggerOffset = 1;
+    InitVType = "ZeroV";
+    valueBC = 0;
+    updateGpu = false;
+    mirrorBCflag = false;
+    initialWriteTime = -1;
+};
+
+IdentConn "Frame_0ReconS1OracleToFrame_0ReconErrorOracle" = {
+    postLayerName = "Frame_0ReconErrorOracle";
+    preLayerName = "Frame_0ReconS1Oracle";
+    delay = [0];
+    channelCode = 1;
+};
+
+HyPerConn "S1Oracle_0ToFrame_2_ATA" = {
+    updateGSynFromPostPerspective = false;
+    numAxonalArbors = 1;
+    pvpatchAccumulateType = "convolve";
+    sharedWeights = true;
+    keepKernelsSynchronized = true;
+    sparseFraction = 0;
+    convertRateToSpikeCount = false;
+    receiveGpu = false;
+    initialWriteTime = -1;
+    channelCode = -1;
+    postLayerName = "Frame_2";
+    plasticityFlag = true;
+    immediateWeightUpdate = true;
+    weightInitType = "UniformRandomWeight";
+    wMaxInit = 0;
+    useMask = false;
+    triggerLayerName = "Frame_0";
+    combineWeightFiles = false;
+    nyp = 9;
+    useListOfArborFiles = false;
+    nxp = 9;
+    wMinInit = 0;
+    selfFlag = false;
+    preLayerName = "S1Oracle_0";
+    initializeFromCheckpointFlag = false;
+    writeCompressedCheckpoints = false;
+    writeStep = -1;
+    dWMax = 1;
+    normalizeMethod = "none";
+    shrinkPatches = false;
+    delay = [0];
+    triggerOffset = 0;
+};
+
+IdentConn "Frame_1ToFrame_1ReconErrorMuggle" = {
+    postLayerName = "Frame_1ReconErrorMuggle";
+    preLayerName = "Frame_1";
+    delay = [0];
+    channelCode = 0;
+};
+
+CloneConn "S1Muggle_2ToFrame_2ReconS1Muggle" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "Frame_2ReconS1Muggle";
+    updateGSynFromPostPerspective = false;
+    preLayerName = "S1Muggle_2";
+    channelCode = 0;
+    writeStep = -1;
+    convertRateToSpikeCount = false;
+    receiveGpu = false;
+    originalConnName = "S1Oracle_0ToFrame_0ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+LogTimeScaleProbe "AdaptiveTimeScales" = {
+    triggerLayerName = "Frame_0";
+    writeTimeScales = true;
+    baseMin = 0.01;
+    targetName = "EnergyProbe";
+    baseMax = 0.011;
+    growthFactor = 0.025;
+    textOutputFlag = true;
+    logSlope = 0.01;
+    probeOutputFile = "AdaptiveTimeScales.txt";
+    logThresh = 0.5;
+    triggerOffset = 0;
+    tauFactor = 0.025;
+};
+
+TransposeConn "Frame_0ReconErrorOracleToS1Oracle_0" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "S1Oracle_0";
+    gpuGroupIdx = -1;
+    channelCode = 0;
+    preLayerName = "Frame_0ReconErrorOracle";
+    convertRateToSpikeCount = false;
+    writeStep = -1;
+    updateGSynFromPostPerspective = true;
+    receiveGpu = true;
+    originalConnName = "S1Oracle_0ToFrame_0ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+CloneConn "S1Oracle_1ToFrame_3ReconS1Oracle" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "Frame_3ReconS1Oracle";
+    updateGSynFromPostPerspective = false;
+    preLayerName = "S1Oracle_1";
+    channelCode = 0;
+    writeStep = -1;
+    convertRateToSpikeCount = false;
+    receiveGpu = false;
+    originalConnName = "S1Oracle_0ToFrame_2ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+IdentConn "S1Muggle_2ToS1Diff_2" = {
+    postLayerName = "S1Diff_2";
+    delay = [0];
+    preLayerName = "S1Muggle_2";
+    channelCode = 1;
+};
+
+FirmThresholdCostFnLCAProbe "S1Muggle_1FirmThreshProbe" = {
+    textOutputFlag = false;
+    targetLayer = "S1Muggle_1";
+    probeOutputFile = "S1Muggle_1FirmThreshProbe.txt";
+    energyProbe = "EnergyProbe";
+};
+
+HyPerLayer "S1Diff_2" = {
+    triggerLayerName = "Frame_0";
+    triggerBehavior = "updateOnlyOnTrigger";
+    nf = 16;
+    phase = 3;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = -1;
+    triggerOffset = 1;
+    valueBC = 0;
+    mirrorBCflag = false;
+    updateGpu = false;
+    initialWriteTime = -1;
+    InitVType = "ZeroV";
+};
+
+MomentumConn "S1Oracle_0ToFrame_2ReconErrorOracle" = {
+    rMinY = 0;
+    updateGSynFromPostPerspective = false;
+    normalizeFromPostPerspective = false;
+    momentumTau = 20;
+    numAxonalArbors = 1;
+    initialWeightUpdateTime = 1000;
+    pvpatchAccumulateType = "convolve";
+    normalizeArborsIndividually = false;
+    sharedWeights = true;
+    keepKernelsSynchronized = true;
+    sparseFraction = 0.9;
+    convertRateToSpikeCount = false;
+    receiveGpu = false;
+    initialWriteTime = -1;
+    channelCode = -1;
+    postLayerName = "Frame_2ReconErrorOracle";
+    plasticityFlag = true;
+    momentumDecay = 0;
+    normalizeGroupName = "S1Oracle_0ToFrame_0ReconErrorOracle";
+    preLayerName = "S1Oracle_0";
+    weightUpdatePeriod = 1000;
+    combineWeightFiles = false;
+    minL2NormTolerated = 0;
+    useMask = false;
+    nonnegativeConstraintFlag = false;
+    weightInitType = "UniformRandomWeight";
+    selfFlag = false;
+    nyp = 9;
+    immediateWeightUpdate = true;
+    writeCompressedCheckpoints = false;
+    nxp = 9;
+    normalizeOnInitialize = true;
+    useListOfArborFiles = false;
+    normalize_cutoff = 0;
+    wMinInit = -1;
+    strength = 1;
+    rMinX = 0;
+    momentumMethod = "viscosity";
+    normalizeOnWeightUpdate = true;
+    writeStep = -1;
+    dWMax = 1;
+    normalizeMethod = "normalizeGroup";
+    shrinkPatches = false;
+    delay = [0];
+    wMaxInit = 1;
+};
+
+L2NormProbe "Frame_3ReconErrorOracleL2Probe" = {
+    textOutputFlag = false;
+    targetLayer = "Frame_3ReconErrorOracle";
+    probeOutputFile = "Frame_3ReconErrorOracleL2Probe.txt";
+    coefficient = 0.5;
+    energyProbe = "EnergyProbe";
+    exponent = 2;
+};
+
+FirmThresholdCostFnLCAProbe "S1Muggle_0FirmThreshProbe" = {
+    textOutputFlag = false;
+    targetLayer = "S1Muggle_0";
+    probeOutputFile = "S1Muggle_0FirmThreshProbe.txt";
+    energyProbe = "EnergyProbe";
+};
+
+HyPerLayer "Frame_3ReconErrorMuggle" = {
+    nf = 1;
+    phase = 1;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = -1;
+    mirrorBCflag = false;
+    valueBC = 0;
+    updateGpu = false;
+    initialWriteTime = -1;
+    InitVType = "ZeroV";
+};
+
+PlasticCloneConn "S1Oracle_1ToFrame_2_ATA" = {
+    postLayerName = "Frame_2";
+    updateGSynFromPostPerspective = false;
+    preActivityIsNotRate = false;
+    preLayerName = "S1Oracle_1";
+    channelCode = -1;
+    originalConnName = "S1Oracle_0ToFrame_1_ATA";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+FirmThresholdCostFnLCAProbe "S1Muggle_2FirmThreshProbe" = {
+    textOutputFlag = false;
+    targetLayer = "S1Muggle_2";
+    probeOutputFile = "S1Muggle_2FirmThreshProbe.txt";
+    energyProbe = "EnergyProbe";
+};
+
+PlasticCloneConn "S1Oracle_2ToFrame_3_ATA" = {
+    postLayerName = "Frame_3";
+    updateGSynFromPostPerspective = false;
+    preActivityIsNotRate = false;
+    preLayerName = "S1Oracle_2";
+    channelCode = -1;
+    originalConnName = "S1Oracle_0ToFrame_1_ATA";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+IdentConn "S1Muggle_1ToS1Diff_1" = {
+    postLayerName = "S1Diff_1";
+    delay = [0];
+    preLayerName = "S1Muggle_1";
+    channelCode = 1;
+};
+
+IdentConn "Frame_2ToFrame_2ReconErrorOracle" = {
+    postLayerName = "Frame_2ReconErrorOracle";
+    preLayerName = "Frame_2";
+    delay = [0];
+    channelCode = 0;
+};
+
+TransposeConn "Frame_3ReconErrorMuggleToS1Muggle_1" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "S1Muggle_1";
+    gpuGroupIdx = -1;
+    channelCode = 0;
+    preLayerName = "Frame_3ReconErrorMuggle";
+    convertRateToSpikeCount = false;
+    writeStep = -1;
+    updateGSynFromPostPerspective = true;
+    receiveGpu = true;
+    originalConnName = "S1Oracle_0ToFrame_2ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+HyPerLayer "Frame_1ReconS1Oracle" = {
+    nf = 1;
+    phase = 3;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = 1000;
+    InitVType = "ZeroV";
+    valueBC = 0;
+    updateGpu = false;
+    mirrorBCflag = false;
+    initialWriteTime = 1000;
+};
+
+PlasticCloneConn "S1Oracle_1ToFrame_1_ATA" = {
+    postLayerName = "Frame_1";
+    updateGSynFromPostPerspective = false;
+    preActivityIsNotRate = false;
+    preLayerName = "S1Oracle_1";
+    channelCode = -1;
+    originalConnName = "S1Oracle_0ToFrame_0_ATA";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+CloneVLayer "S1MuggleClone_1" = {
+    nf = 16;
+    phase = 2;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = -1;
+    mirrorBCflag = false;
+    valueBC = 0;
+    updateGpu = false;
+    initialWriteTime = -1;
+    originalLayerName = "S1Muggle_1";
+};
+
+HyPerLayer "Frame_2ReconErrorOracle" = {
+    nf = 1;
+    phase = 1;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = -1;
+    mirrorBCflag = false;
+    valueBC = 0;
+    updateGpu = false;
+    initialWriteTime = -1;
+    InitVType = "ZeroV";
+};
+
+HyPerLayer "Frame_0ReconErrorX" = {
+    triggerLayerName = "Frame_0";
+    triggerBehavior = "updateOnlyOnTrigger";
+    nf = 1;
+    phase = 4;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = -1;
+    triggerOffset = 1;
+    InitVType = "ZeroV";
+    valueBC = 0;
+    updateGpu = false;
+    mirrorBCflag = false;
+    initialWriteTime = -1;
+};
+
+CloneVLayer "S1MuggleClone_0" = {
+    nf = 16;
+    phase = 2;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = -1;
+    mirrorBCflag = false;
+    valueBC = 0;
+    updateGpu = false;
+    initialWriteTime = -1;
+    originalLayerName = "S1Muggle_0";
+};
+
+IdentConn "Frame_4ReconS1OracleToFrame_4ReconErrorOracle" = {
+    postLayerName = "Frame_4ReconErrorOracle";
+    preLayerName = "Frame_4ReconS1Oracle";
+    delay = [0];
+    channelCode = 1;
+};
+
+IdentConn "S1Oracle_1ToS1Diff_1" = {
+    postLayerName = "S1Diff_1";
+    preLayerName = "S1Oracle_1";
+    delay = [0];
+    channelCode = 0;
+};
+
+TransposeConn "Frame_2ReconErrorMuggleToS1Muggle_1" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "S1Muggle_1";
+    gpuGroupIdx = -1;
+    channelCode = 0;
+    preLayerName = "Frame_2ReconErrorMuggle";
+    convertRateToSpikeCount = false;
+    writeStep = -1;
+    updateGSynFromPostPerspective = true;
+    receiveGpu = true;
+    originalConnName = "S1Oracle_0ToFrame_1ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+HyPerLayer "Frame_0ReconErrorMuggle" = {
+    nf = 1;
+    phase = 1;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = -1;
+    mirrorBCflag = false;
+    valueBC = 0;
+    updateGpu = false;
+    initialWriteTime = -1;
+    InitVType = "ZeroV";
+};
+
+PlasticCloneConn "S1Oracle_1ToFrame_3ReconErrorOracle" = {
+    postLayerName = "Frame_3ReconErrorOracle";
+    updateGSynFromPostPerspective = false;
+    preActivityIsNotRate = false;
+    preLayerName = "S1Oracle_1";
+    channelCode = -1;
+    originalConnName = "S1Oracle_0ToFrame_2ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+IdentConn "S1Muggle_0ToS1Diff_0" = {
+    postLayerName = "S1Diff_0";
+    delay = [0];
+    preLayerName = "S1Muggle_0";
+    channelCode = 1;
+};
+
+TransposeConn "Frame_1ReconErrorOracleToS1Oracle_0" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "S1Oracle_0";
+    gpuGroupIdx = -1;
+    channelCode = 0;
+    preLayerName = "Frame_1ReconErrorOracle";
+    convertRateToSpikeCount = false;
+    writeStep = -1;
+    updateGSynFromPostPerspective = true;
+    receiveGpu = true;
+    originalConnName = "S1Oracle_0ToFrame_1ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+L2NormProbe "Frame_4ReconErrorMuggleL2Probe" = {
+    textOutputFlag = false;
+    targetLayer = "Frame_4ReconErrorMuggle";
+    probeOutputFile = "Frame_4ReconErrorMuggleL2Probe.txt";
+    coefficient = 0.5;
+    energyProbe = "EnergyProbe";
+    exponent = 2;
+};
+
+CloneConn "S1Oracle_0ToFrame_0ReconS1Oracle" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "Frame_0ReconS1Oracle";
+    updateGSynFromPostPerspective = false;
+    preLayerName = "S1Oracle_0";
+    channelCode = 0;
+    writeStep = -1;
+    convertRateToSpikeCount = false;
+    receiveGpu = false;
+    originalConnName = "S1Oracle_0ToFrame_0ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+PlasticCloneConn "S1Oracle_1ToFrame_1ReconErrorOracle" = {
+    postLayerName = "Frame_1ReconErrorOracle";
+    updateGSynFromPostPerspective = false;
+    preActivityIsNotRate = false;
+    preLayerName = "S1Oracle_1";
+    channelCode = -1;
+    originalConnName = "S1Oracle_0ToFrame_0ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+PlasticCloneConn "S1Oracle_2ToFrame_4ReconErrorOracle" = {
+    postLayerName = "Frame_4ReconErrorOracle";
+    updateGSynFromPostPerspective = false;
+    preActivityIsNotRate = false;
+    preLayerName = "S1Oracle_2";
+    channelCode = -1;
+    originalConnName = "S1Oracle_0ToFrame_2ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+HyPerLayer "Frame_1ReconS1Muggle" = {
+    nf = 1;
+    phase = 3;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = 1000;
+    InitVType = "ZeroV";
+    valueBC = 0;
+    updateGpu = false;
+    mirrorBCflag = false;
+    initialWriteTime = 1000;
+};
+
+HyPerLayer "Frame_0ReconS1Muggle" = {
+    nf = 1;
+    phase = 3;
+    nxScale = 1;
+    nyScale = 1;
+    sparseLayer = false;
+    writeStep = 1000;
+    InitVType = "ZeroV";
+    valueBC = 0;
+    updateGpu = false;
+    mirrorBCflag = false;
+    initialWriteTime = 1000;
+};
+
+TransposeConn "Frame_4ReconErrorOracleToS1Oracle_2" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "S1Oracle_2";
+    gpuGroupIdx = -1;
+    channelCode = 0;
+    preLayerName = "Frame_4ReconErrorOracle";
+    convertRateToSpikeCount = false;
+    writeStep = -1;
+    updateGSynFromPostPerspective = true;
+    receiveGpu = true;
+    originalConnName = "S1Oracle_0ToFrame_2ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+PlasticCloneConn "S1Oracle_2ToFrame_4_ATA" = {
+    postLayerName = "Frame_4";
+    updateGSynFromPostPerspective = false;
+    preActivityIsNotRate = false;
+    preLayerName = "S1Oracle_2";
+    channelCode = -1;
+    originalConnName = "S1Oracle_0ToFrame_2_ATA";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+CloneConn "S1Oracle_2ToFrame_2ReconS1Oracle" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "Frame_2ReconS1Oracle";
+    updateGSynFromPostPerspective = false;
+    preLayerName = "S1Oracle_2";
+    channelCode = 0;
+    writeStep = -1;
+    convertRateToSpikeCount = false;
+    receiveGpu = false;
+    originalConnName = "S1Oracle_0ToFrame_0ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+CloneConn "S1Oracle_2ToFrame_4ReconS1Oracle" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "Frame_4ReconS1Oracle";
+    updateGSynFromPostPerspective = false;
+    preLayerName = "S1Oracle_2";
+    channelCode = 0;
+    writeStep = -1;
+    convertRateToSpikeCount = false;
+    receiveGpu = false;
+    originalConnName = "S1Oracle_0ToFrame_2ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+PlasticCloneConn "S1Oracle_2ToFrame_2ReconErrorOracle" = {
+    postLayerName = "Frame_2ReconErrorOracle";
+    updateGSynFromPostPerspective = false;
+    preActivityIsNotRate = false;
+    preLayerName = "S1Oracle_2";
+    channelCode = -1;
+    originalConnName = "S1Oracle_0ToFrame_0ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+
+CloneConn "S1Oracle_0ToFrame_2ReconS1Oracle" = {
+    writeCompressedCheckpoints = false;
+    postLayerName = "Frame_2ReconS1Oracle";
+    updateGSynFromPostPerspective = false;
+    preLayerName = "S1Oracle_0";
+    channelCode = 0;
+    writeStep = -1;
+    convertRateToSpikeCount = false;
+    receiveGpu = false;
+    originalConnName = "S1Oracle_0ToFrame_2ReconErrorOracle";
+    selfFlag = false;
+    delay = [0];
+    pvpatchAccumulateType = "convolve";
+};
+

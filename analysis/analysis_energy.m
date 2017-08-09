@@ -9,11 +9,11 @@ setenv("GNUTERM","X11")
 
 nbatch = 8;
 batchwidth = 1;
-steps = 500; 
+steps = 1000; 
 
-out_folder = '~/Star-Field-Transformations/starOut/8-01-17_3';
+out_folder = '~/Star-Field-Transformations/starOut/8-08-17';
 mkdir(out_folder);
-parent_output_dir = '/nh/compneuro/scratch/starOut/starField_SPM_9X9X16_5_500/train18-01-17_3';
+parent_output_dir = '/nh/compneuro/scratch/starOut/starField_SPM_9X9X16_5_1000/train18-08-17';
 output_dir = parent_output_dir;
 
 title_str = ['energy'];
@@ -33,7 +33,7 @@ cmap = colormap("prism");
 for i_batch = 1:nbatch
   energy = dlmread([parent_output_dir, filesep, './EnergyProbe_batchElement_', num2str(i_batch-1), '.txt'])(2:end,3);
 plot(energy(steps:steps:end), "color", cmap(i_batch,:));
-  hold on;
+   hold on;
   %saveas(fh_energy, [out_folder, filesep, title_str, '_', num2str(i_batch), '.png'], 'png');
 endfor
 saveas(fh_energy, [out_folder, filesep, title_str, '.png'], 'png');
